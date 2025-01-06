@@ -1,0 +1,34 @@
+.searchpage-container {
+    padding: 20px;
+  }
+  
+  .carousel-container {
+    margin-bottom: 20px;
+  }
+  
+  .filter-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .filter-form {
+    margin-bottom: 10px;
+  }
+  
+  .property-filter {
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

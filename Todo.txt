@@ -6,6 +6,7 @@ To Do
 Add routes for outlet on app.jsx 
 Flesh out logic in landlord and Property cards
 
+Make the landlord page have a carousel of the propertycards for each landlord each one showing the property and its LLC and management company if applicable
 
     --------------------------------------------------------
     Back End
@@ -13,6 +14,12 @@ Flesh out logic in landlord and Property cards
 Crud
 routes
 Validates 
+
+LandlordsbyId needs to be altered so we poull the right attributes
+
+LandlordsByuserid needs to be debugged 
+
+
 
 
 ------------
