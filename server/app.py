@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 
 # Local imports
 from config import app, db, api
-from models import db, User
+from models import db, User, Landlord, Rating, Lease, Property 
 # Add your model imports
 
 @app.route('/')
@@ -73,6 +73,41 @@ def login():
 def logout():
     session.pop('user_id')
     return {}, 204
+
+@app.route('/api/landlords', methods=['GET'])
+def get_landlords():
+    try:
+        # Query all landlords from the database
+        landlords = Landlord.query.all()
+
+        # Prepare a list of landlords
+        landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
+        return jsonify(landlord_list), 200
+    except Exception as e:
+        return jsonify({"message": f"Error fetching landlords: {str(e)}"}), 500
+
+# Route to fetch landlords associated with a specific user
+@app.route('/api/landlords/associated', methods=['GET'])
+def get_associated_landlords():
+    try:
+        # Get userId from query parameter
+        user_id = request.args.get('userId')
+
+        if not user_id:
+            return jsonify({"message": "userId parameter is required"}), 400
+
+        # Query landlords associated with the specific userId
+        landlords = Landlord.query.filter_by(user_id=user_id).all()
+
+        if not landlords:
+            return jsonify({"message": "No landlords found for this user."}), 404
+
+        # Prepare the landlord data to return
+        landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
+        return jsonify(landlord_list), 200
+
+    except Exception as e:
+        return jsonify({"message": f"Error fetching associated landlords: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
