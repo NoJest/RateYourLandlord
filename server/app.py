@@ -87,6 +87,27 @@ def get_landlords():
         return jsonify({"message": f"Error fetching landlords: {str(e)}"}), 500
 
 # Route to fetch landlords associated with a specific user
+@app.route('/api/landlords', methods=['POST'])
+def create_landlord():
+    data = request.get_json()
+    
+    # Validate data (basic checks for required fields)
+    if not data.get('name') or not data.get('image_url'):
+        return jsonify({'error': 'Missing required fields'}), 400
+    
+    # Create a new landlord
+    new_landlord = Landlord(
+        name=data['name'],
+        image_url=data['image_url'],
+        issues=data.get('issues', None),  # Optional field
+    )
+    
+    # Add to the database
+    db.session.add(new_landlord)
+    db.session.commit()
+
+    return jsonify(new_landlord.to_dict()), 201  # Send back the created landlord as a response
+
 @app.route('/api/landlords/associated', methods=['GET'])
 def get_associated_landlords():
     try:
@@ -123,6 +144,50 @@ def get_landlord(id):
         })
     else:
         return jsonify({'message': 'Landlord not found'}), 404
+
+@app.route('/api/properties', methods=['POST'])
+def create_property():
+    data = request.get_json()
+    
+    # Validate the property data
+    if not data.get('street_number') or not data.get('street_name') or not data.get('zip_code'):
+        return jsonify({'error': 'Missing required property fields'}), 400
+
+    # Create a new property and associate it with the landlord
+    new_property = Property(
+        llc=data.get('llc', None),
+        property_management=data.get('property_management', None),
+        street_number=data['street_number'],
+        street_name=data['street_name'],
+        apartment_number=data.get('apartment_number', None),
+        zip_code=data['zip_code'],
+        landlord_id=data['landlord_id'],  # Ensure landlord_id is sent from frontend
+    )
+    
+    # Add to the database
+    db.session.add(new_property)
+    db.session.commit()
+
+    return jsonify(new_property.to_dict()), 201  # Send back the created property as a response
+@app.route('/api/ratings', methods=['POST'])
+def create_rating():
+    data = request.get_json()
+    
+    # Validate the rating data
+    if not data.get('rating') or not data.get('landlord_id'):
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    # Create a new rating for the landlord
+    new_rating = Rating(
+        rating=data['rating'],
+        landlord_id=data['landlord_id'],
+    )
+    
+    # Add to the database
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify(new_rating.to_dict()), 201  # Send back the created rating as a response
 
 
 if __name__ == '__main__':
