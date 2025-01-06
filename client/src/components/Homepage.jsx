@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Slider from 'react-slick'
 import LandlordCard from './LandlordCard'
+import { Link } from 'react-router-dom';
 function Homepage() {
     const [landlords, setLandlords] = useState([]);  // State to store landlords data
     const [loading, setLoading] = useState(true);  // State to track loading state
@@ -10,7 +11,7 @@ function Homepage() {
         // Async function to fetch landlord data
         const fetchLandlords = async () => {
           try {
-            const response = await fetch('api/landlords'); // Replace with your backend API
+            const response = await fetch('/api/landlords'); // Replace with your backend API
             if (!response.ok) {
               throw new Error('Failed to fetch landlords');
             }

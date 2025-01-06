@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App'; // Access the UserContext to get the current user
 import Slider from 'react-slick'; // Slick carousel for displaying landlords
+import LandlordCard from './LandlordCard';
 import './UserDashboard.css'; // Assuming you have some basic styles for the component
 
 const UserDashboard = () => {
@@ -87,10 +88,8 @@ const UserDashboard = () => {
         <h3>Landlords Associated with You</h3>
         <Slider {...carouselSettings}>
           {associatedLandlords.map((landlord) => (
-            <div key={landlord.id} className="landlord-card">
-              <h4>{landlord.name}</h4>
-              <p>Rating: {landlord.rating}</p>
-              {/* You can customize this card to display more details about the landlord */}
+            <div key={landlord.id}>
+              <LandlordCard landlord={landlord} />
             </div>
           ))}
         </Slider>
@@ -105,14 +104,13 @@ const UserDashboard = () => {
       {/* Top 5 worst-rated landlords */}
       <div className="worst-rated-container">
         <h3>Top 5 Worst Rated Landlords</h3>
-        <ul>
+        <Slider {...carouselSettings}>
           {worstRatedLandlords.map((landlord) => (
-            <li key={landlord.id}>
-              <h4>{landlord.name}</h4>
-              <p>Rating: {landlord.rating}</p>
-            </li>
+            <div key={landlord.id}>
+              <LandlordCard landlord={landlord} />
+            </div>
           ))}
-        </ul>
+        </Slider>
       </div>
     </div>
   );
