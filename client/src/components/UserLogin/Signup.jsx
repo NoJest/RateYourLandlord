@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App'; // Import UserContext if you need it
 import './Signup.css'; // Import the CSS for Signup component
 
@@ -59,6 +60,10 @@ const Signup = () => {
       setPassword('');
       setPasswordConfirm('');
       setError('');
+      // After a short delay, navigate to the /dashboard route
+      setTimeout(() => {
+        navigate('/dashboard');  // Redirect to the dashboard page
+      }, 2000);  // You can adjust the delay time as per your preferenc
     } catch (err) {
       setError(err.message); // Handle any error that occurred
     }

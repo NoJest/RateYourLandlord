@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App'; // Import the context to access user state
 import './Login.css'
 const Login = () => {
@@ -39,6 +40,9 @@ const Login = () => {
       setCurrentUser(data); // Set the logged-in user using context
       localStorage.setItem('currentUser', JSON.stringify(data)); // Save user in localStorage
       alert('Login successful!');
+
+       // Redirect to the dashboard
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message); // Handle any error (e.g., network issues or invalid credentials)
     }
