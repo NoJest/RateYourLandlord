@@ -1,4 +1,4 @@
-import React, {children} from 'react'
+import React from 'react'
 import App from './App'
 import Login from './components/UserLogin/Login'
 import SignUp from './components/UserLogin/Signup'
@@ -6,7 +6,7 @@ import Homepage from './components/Homepage'
 import UserDashboard from './components/UserDashboard'
 import Searchpage from './components/Searchpage'
 import AddLandlord from './components/AddLandlord'
-
+import LandlordPage from './components/LandlordPage'
 
 const routes = [
     {path: '/homepage', element: <Homepage />},
@@ -15,6 +15,7 @@ const routes = [
     {path: '/dashboard', element: <UserDashboard />},
     {path: '/search', element: <Searchpage />},
     {path: '/addlandlord', element: <AddLandlord />},
+    { path: '/landlord/:id', element: <LandlordDetail /> },
     {path: '/', element: <App />, children: [ {path: 'homepage', component: <Homepage/>},] },
 ]
 export default routes

@@ -108,6 +108,21 @@ def get_associated_landlords():
 
     except Exception as e:
         return jsonify({"message": f"Error fetching associated landlords: {str(e)}"}), 500
+    
+@app.route('/api/landlords/<int:id>', methods=['GET'])
+def get_landlord(id):
+    landlord = Landlord.query.get(id)  # Query the database for the landlord by ID
+    if landlord:
+        return jsonify({
+            'id': landlord.id,
+            'name': landlord.name,
+            'ratings': landlord.ratings,
+            'image': landlord.image,
+            'issues': landlord.issues,
+            'properties': landlord.properties
+        })
+    else:
+        return jsonify({'message': 'Landlord not found'}), 404
 
 
 if __name__ == '__main__':
