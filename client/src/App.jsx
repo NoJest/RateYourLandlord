@@ -1,8 +1,8 @@
 import { useState, createContext, useContext, useEffect } from 'react'
 import { useLocation, Outlet, Navigate } from 'react-router-dom';
 import './App.css'
-import Homepage from "./Homepage"
-import UserDashboard from './UserDashboard'
+import Homepage from "./components/Homepage"
+import UserDashboard from './components/UserDashboard'
 export const UserContext = createContext({
   currentUser: null,
   setCurrentUser: () => {},
@@ -10,6 +10,7 @@ export const UserContext = createContext({
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);  
+  const [error, setError] = useState('');
   // Adding loading state to manage UI feedback
 
   // we'll partially track the signed in user using state
