@@ -15,7 +15,7 @@ const routes = [
     {path: '/dashboard', element: <UserDashboard />},
     {path: '/search', element: <Searchpage />},
     {path: '/addlandlord', element: <AddLandlord />},
-    { path: '/landlord/:id', element: <LandlordDetail /> },
+    { path: '/landlord/:id', element: <LandlordPage /> },
     {path: '/', element: <App />, children: [ {path: 'homepage', component: <Homepage/>},] },
 ]
 export default routes

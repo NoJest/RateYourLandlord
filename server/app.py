@@ -188,7 +188,7 @@ def create_rating():
     db.session.commit()
 
     return jsonify(new_rating.to_dict()), 201  # Send back the created rating as a response
-
+n
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

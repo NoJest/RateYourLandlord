@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../App'; // Access the UserContext to get the current user
+import { UserContext } from '/Users/justinpthomasson/Development/code/phase-5/RateYourLandlord/client/src/App.jsx'; // Access the UserContext to get the current user
 import Slider from 'react-slick'; // Slick carousel for displaying landlords
 import LandlordCard from './LandlordCard';
 import './UserDashboard.css'; // Assuming you have some basic styles for the component
