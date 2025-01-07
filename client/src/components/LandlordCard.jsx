@@ -15,7 +15,7 @@ function LandlordCard({ landlord }) {
       <h3>{landlord.ratings}</h3> {/* Add logic for displaying average rating */}
       <h3>{landlord.name}</h3>
       <p>{landlord.issues}</p>
-      <p>{landlord.properties}</p>
+      {/* <p>{landlord.properties}</p> */}
       {/* Potentially another card here */}
       {/* <PropertyCard></PropertyCard> */}
     </div>

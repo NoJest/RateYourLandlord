@@ -3,13 +3,13 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session
+from flask import request, session, jsonify
 from flask_restful import Resource
 from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
 
 # Local imports
-from config import app, db, api
+from config import app, db
 from models import db, User, Landlord, Rating, Lease, Property 
 # Add your model imports
 
@@ -65,6 +65,7 @@ def login():
     user = User.query.where(User.username == data.get('username')).first()
     if user and user.authenticate(data.get('password')):
         session['user_id'] = user.id
+        print(f"Session ID after login: {session.get('user_id')}")  # Debugging line
         return user.to_dict(), 202
     else: 
         return {"error": "invalid username or password"}, 401
@@ -84,6 +85,7 @@ def get_landlords():
         landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
         return jsonify(landlord_list), 200
     except Exception as e:
+        print(f"Error fetching landlords: {str(e)}")  # Debugging line
         return jsonify({"message": f"Error fetching landlords: {str(e)}"}), 500
 
 # Route to fetch landlords associated with a specific user
@@ -117,11 +119,16 @@ def get_associated_landlords():
         if not user_id:
             return jsonify({"message": "userId parameter is required"}), 400
 
+        ratings = Rating.query.filter_by(user_id=user_id).all()
+        
+        # if not ratings:
+        #     return jsonify({"message": "No ratings found for this user."}), 404
         # Query landlords associated with the specific userId
-        landlords = Landlord.query.filter_by(user_id=user_id).all()
-
-        if not landlords:
-            return jsonify({"message": "No landlords found for this user."}), 404
+        landlords = [rating.landlord for rating in ratings]
+        # if not landlords:
+        #     return jsonify({"message": "No landlords found for this user."}), 404
+        
+        
 
         # Prepare the landlord data to return
         landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
@@ -188,7 +195,7 @@ def create_rating():
     db.session.commit()
 
     return jsonify(new_rating.to_dict()), 201  # Send back the created rating as a response
-n
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

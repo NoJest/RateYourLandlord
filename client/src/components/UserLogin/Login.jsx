@@ -1,20 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../App'; // Import the context to access user state
-import './Login.css'
+import { UserContext } from '../../App'; // Import UserContext
+import './Login.css';
+
 const Login = () => {
-  const { setCurrentUser } = useContext(UserContext); // Accessing the setCurrentUser function from context
+  const thing = useContext(UserContext)
+  console.log(thing)
+  const { setCurrentUser, currentUser } = useContext(UserContext);  // Access setCurrentUser from context
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();  // Used to navigate to the dashboard
 
-  // Handle form input changes
+  // Handle input changes
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form reload
+    e.preventDefault();
 
     if (!username || !password) {
       setError('Username and password are required!');
@@ -22,7 +26,7 @@ const Login = () => {
     }
 
     try {
-      // Simulate a login API call
+      // API call to login the user
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
@@ -35,18 +39,30 @@ const Login = () => {
         throw new Error('Invalid username or password!');
       }
 
-      const data = await response.json(); // Assuming the response returns user data
-
-      setCurrentUser(data); // Set the logged-in user using context
-      localStorage.setItem('currentUser', JSON.stringify(data)); // Save user in localStorage
+      const data = await response.json(); // Assuming the response contains the user data
+      setCurrentUser(data); // Set the user data in context
+      localStorage.setItem('currentUser', JSON.stringify(data)); // Persist user to localStorage
       alert('Login successful!');
 
-       // Redirect to the dashboard
-      navigate('/dashboard');
+      // Redirect to dashboard after successful login
+      navigate('/dashboard'); // Ensure this navigation happens only once
     } catch (err) {
-      setError(err.message); // Handle any error (e.g., network issues or invalid credentials)
+      setError(err.message); // Handle errors (e.g., invalid credentials)
     }
   };
+  console.log({setCurrentUser})
+
+
+  // Check if the user is already logged in and redirect to dashboard
+  useEffect(() => {
+    const storedUser = localStorage.getItem('currentUser');
+    console.log('Stored User:', JSON.parse(storedUser)); // Debugging: check if user is stored in localStorage
+    console.log(currentUser)
+    if (storedUser && !currentUser) {
+      setCurrentUser(JSON.parse(storedUser)); // Load user from localStorage
+      // navigate('/dashboard'); // Redirect to dashboard if user is already logged in
+    }
+  }, []);  // `setCurrentUser` and `navigate` are stable, so this runs once on mount
 
   return (
     <div className="login-container">
@@ -77,7 +93,6 @@ const Login = () => {
           />
         </div>
 
-        {/* Show error message if there's any */}
         {error && <div className="error-message">{error}</div>}
 
         <div className="form-group">
