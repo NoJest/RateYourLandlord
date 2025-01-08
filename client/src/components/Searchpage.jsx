@@ -41,10 +41,10 @@ const Searchpage = () => {
 
   // Slick carousel settings
   const carouselSettings = {
-    dots: true,
-    infinite: true,
+    dots: false,
+    infinite: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
       {
@@ -94,7 +94,7 @@ const Searchpage = () => {
         landlord.property.apartmentNumber.includes(apartmentNumberFilter)
       );
     }
-
+    console.log(filtered);
     setFilteredLandlords(filtered);  // Set the filtered landlords
   };
 
@@ -102,7 +102,7 @@ const Searchpage = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
+  
   return (
     <div className="searchpage-container">
       <h2>Landlords with the Worst Ratings</h2>

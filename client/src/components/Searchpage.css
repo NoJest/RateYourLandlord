@@ -3,9 +3,30 @@
   }
   
   .carousel-container {
-    margin-bottom: 20px;
+    width: 100%;
+  margin: 0 auto; /* Center the carousel */
   }
-  
+  /* Ensure each individual slide (landlord card) is styled properly */
+.slick-slide {
+  display: flex;
+  justify-content: center; /* Center the content inside each slide */
+}
+
+.landlord-card {
+  width: 100%; /* Or use a fixed width like 300px for consistency */
+  margin: 0 10px; /* Optional margin for spacing between the cards */
+}
+
+/* Adjust the size for responsive layouts */
+@media (max-width: 768px) {
+  .landlord-card {
+    width: 80%; /* Adjust width for smaller screens */
+  }
+}
+.slick-track {
+  display: flex;
+  flex-direction: row;  /* Force horizontal layout */
+}
   .filter-section {
     margin-top: 20px;
     padding: 10px;

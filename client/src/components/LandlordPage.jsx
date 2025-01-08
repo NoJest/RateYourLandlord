@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
 
-const LandlordDetail = () => {
+const LandlordPage = () => {
   const { id } = useParams();  // Get the landlord id from the URL
   const [landlord, setLandlord] = useState(null);  // State to store landlord data
   const [loading, setLoading] = useState(true);  // Loading state
@@ -31,13 +31,24 @@ const LandlordDetail = () => {
   return (
     <div className="landlord-detail">
       <h2>{landlord.name}</h2>
-      <img src={landlord.image} alt={landlord.name} />
-      <p><strong>Rating:</strong> {landlord.ratings}</p>
+      <img src={landlord.image_url} alt={landlord.name} />
+      <div>
+        {Array.isArray(landlord.ratings) && landlord.ratings.length > 0 ? (
+          landlord.ratings.map((rating, index) => (
+            <div key={index}>
+              {/* Ensure you are rendering a valid value (e.g., rating.rating or rating itself) */}
+              <strong>Rating: {rating.rating}</strong>
+            </div>
+          ))
+        ) : (
+          <span>No ratings available</span>
+        )}
+      </div>
       <p><strong>Issues:</strong> {landlord.issues}</p>
-      <p><strong>Properties:</strong> {landlord.properties}</p>
+      {/* <p><strong>Properties:</strong> {landlord.properties}</p> */}
       {/* You can add more details or sections here */}
     </div>
   );
 };
 
-export default LandlordDetail;
+export default LandlordPage;

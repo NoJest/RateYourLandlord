@@ -82,7 +82,7 @@ def get_landlords():
         landlords = Landlord.query.all()
 
         # Prepare a list of landlords
-        landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
+        landlord_list = [{"id": l.id, "name": l.name, "rating": l.get_average_rating()} for l in landlords]
         return jsonify(landlord_list), 200
     except Exception as e:
         print(f"Error fetching landlords: {str(e)}")  # Debugging line
@@ -94,21 +94,29 @@ def create_landlord():
     data = request.get_json()
     
     # Validate data (basic checks for required fields)
-    if not data.get('name') or not data.get('image_url'):
+    if not data.get('name'):
         return jsonify({'error': 'Missing required fields'}), 400
     
-    # Create a new landlord
-    new_landlord = Landlord(
-        name=data['name'],
-        image_url=data['image_url'],
-        issues=data.get('issues', None),  # Optional field
-    )
+    user_id = data.get('user_id')
     
-    # Add to the database
-    db.session.add(new_landlord)
-    db.session.commit()
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+    
+    try:
+        # Create the landlord
+        new_landlord = Landlord(
+            name=data.get('name'),
+            image_url=data.get('image_url'),
+            issues=data.get('issues', None),
+        )
+        
+        # Add to the database
+        db.session.add(new_landlord)
+        db.session.commit()
 
-    return jsonify(new_landlord.to_dict()), 201  # Send back the created landlord as a response
+        return jsonify(new_landlord.to_dict()), 201  # Respond with the created landlord
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/landlords/associated', methods=['GET'])
 def get_associated_landlords():
@@ -139,18 +147,27 @@ def get_associated_landlords():
     
 @app.route('/api/landlords/<int:id>', methods=['GET'])
 def get_landlord(id):
-    landlord = Landlord.query.get(id)  # Query the database for the landlord by ID
-    if landlord:
-        return jsonify({
-            'id': landlord.id,
-            'name': landlord.name,
-            'ratings': landlord.ratings,
-            'image': landlord.image,
-            'issues': landlord.issues,
-            'properties': landlord.properties
-        })
-    else:
-        return jsonify({'message': 'Landlord not found'}), 404
+    try:
+        landlord = Landlord.query.get(id)  # Query the database for the landlord by ID
+        if landlord:
+             # Serialize the ratings using to_dict() 
+            ratings = [rating.to_dict() for rating in landlord.ratings] if landlord.ratings else 'No ratings available'
+            # Serialize the properties using to_dict() 
+            properties = [property.to_dict() for property in landlord.properties] if landlord.properties else 'No properties available'
+            return jsonify({
+                'id': landlord.id,
+                'name': landlord.name,
+                'ratings': ratings,  # Default if ratings are None
+                'image_url': landlord.image_url or 'No image available',  # Default if image is None
+                'issues': landlord.issues or 'No issues available',  # Default if issues are None
+                'properties': properties # Default if properties is None
+            })
+        else:
+            return jsonify({'message': 'Landlord not found'}), 404
+    except Exception as e:
+        # Log the error for debugging
+        print(f"Error fetching landlord {id}: {str(e)}")
+        return jsonify({'message': f"Error fetching landlord: {str(e)}"}), 500
 
 @app.route('/api/properties', methods=['POST'])
 def create_property():

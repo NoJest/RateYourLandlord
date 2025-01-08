@@ -38,7 +38,7 @@ const UserDashboard = () => {
         throw new Error('Failed to fetch associated landlords');
       }
       const data = await response.json();
-      console.log('Associated landlords:', data);
+      // console.log('Associated landlords:', data);
       setAssociatedLandlords(data);
     } catch (err) {
       console.error('Failed to fetch associated landlords:', err);
@@ -136,7 +136,7 @@ const UserDashboard = () => {
       </div>
 
       {/* Top 5 worst-rated landlords */}
-      <div className="worst-rated-container">
+      {/* <div className="worst-rated-container">
         <h3>Top 5 Worst Rated Landlords</h3>
         {worstRatedLandlords.length === 0 ? (
           <p>No worst-rated landlords found.</p>
@@ -150,7 +150,7 @@ const UserDashboard = () => {
           </Slider>
         )}
       </div>
-      
+       */}
     </div>
     
   );

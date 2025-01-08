@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../App';
+
 
 const AddLandlord = () => {
   const [name, setName] = useState('');
@@ -11,16 +13,22 @@ const AddLandlord = () => {
   const [streetName, setStreetName] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [zipCode, setZipCode] = useState('');
-
+  const { currentUser, setCurrentUser } = useContext(UserContext); // Get the current user
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // Validate required fields
+  if (!name || !rating || !streetNumber || !streetName || !zipCode) {
+    alert("Please fill in all required fields!");
+    return;
+  }
 
     const landlordData = {
       name,
       image_url,
       issues,
-      rating: parseInt(rating), // Ensure it's an integer
+      ratings: parseInt(rating), // Ensure it's an integer
     };
 
     const propertyData = {
@@ -31,7 +39,12 @@ const AddLandlord = () => {
       apartment_number: apartmentNumber ? parseInt(apartmentNumber) : null, // Optional
       zip_code: parseInt(zipCode), // Ensure it's an integer
     };
-
+    
+    const userId= currentUser ? currentUser.id : null;
+    if (!userId) {
+        alert('Please log in to add a new landlord');
+        return;
+    }
     // POST requests to create a new landlord and associated property
     try {
       // Step 1: Create the landlord
@@ -40,8 +53,12 @@ const AddLandlord = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(landlordData),
+        body: JSON.stringify({
+            ...landlordData,
+             user_id:userId,
+        }),
       });
+     
 
       if (!landlordResponse.ok) {
         throw new Error('Failed to create landlord');
@@ -69,6 +86,7 @@ const AddLandlord = () => {
       const ratingData = {
         rating: parseInt(rating),
         landlord_id: landlord.id,
+        user_id: userId,
       };
 
       const ratingResponse = await fetch('/api/ratings', {

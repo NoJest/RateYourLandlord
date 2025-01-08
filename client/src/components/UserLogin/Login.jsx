@@ -4,8 +4,9 @@ import { UserContext } from '../../App'; // Import UserContext
 import './Login.css';
 
 const Login = () => {
-  const thing = useContext(UserContext)
-  console.log(thing)
+  // const thing = useContext(UserContext)
+  // console.log(thing)
+  // debuggggging
   const { setCurrentUser, currentUser } = useContext(UserContext);  // Access setCurrentUser from context
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -50,14 +51,14 @@ const Login = () => {
       setError(err.message); // Handle errors (e.g., invalid credentials)
     }
   };
-  console.log({setCurrentUser})
+  // console.log({setCurrentUser})
 
 
   // Check if the user is already logged in and redirect to dashboard
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    console.log('Stored User:', JSON.parse(storedUser)); // Debugging: check if user is stored in localStorage
-    console.log(currentUser)
+    // console.log('Stored User:', JSON.parse(storedUser)); // Debugging: check if user is stored in localStorage
+    // console.log(currentUser)
     if (storedUser && !currentUser) {
       setCurrentUser(JSON.parse(storedUser)); // Load user from localStorage
       // navigate('/dashboard'); // Redirect to dashboard if user is already logged in

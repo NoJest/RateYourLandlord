@@ -34,7 +34,8 @@ function App() {
   // Use effect to load user from localStorage or check session
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    console.log('Stored User:', storedUser); // Debugging: check if user is stored in localStorage
+    // console.log('Stored User:', storedUser);
+     // Debugging: check if user is stored in localStorage
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser)); // Load user from localStorage if available
       setLoading(false);
@@ -64,7 +65,10 @@ function App() {
             <Outlet /> {/* Render nested routes for non-logged-in users */}
           </>
         ) : (
+          <>
           <UserDashboard />
+          <Outlet /> {/* Render nested routes for logged-in users */}
+          </>
         )}
       </div>
     </UserContext.Provider>

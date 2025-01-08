@@ -109,8 +109,8 @@ class Property(db.Model, SerializerMixin):
     __tablename__ = 'properties_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    llc = db.Column(db.String, unique=True, nullable=True)
-    property_management = db.Column(db.String, unique=True, nullable=True)
+    llc = db.Column(db.String, nullable=True)
+    property_management = db.Column(db.String, nullable=True)
     street_number = db.Column(db.Integer, unique=False, nullable=False)
     street_name = db.Column(db.String, unique=False, nullable=False)
     apartment_number = db.Column(db.Integer, unique=False, nullable=True)
@@ -124,7 +124,7 @@ class Property(db.Model, SerializerMixin):
     leases = db.relationship('Lease', back_populates='property')
 
     # -- serializing -- #
-    serialize_rules = ("-landlords.properties", "-leases.properties", "landlords", "leases")
+    serialize_rules = ("-landlord.properties", "-leases.properties", "landlord", "leases")
 
     # -- validations -- ## 
 
@@ -134,7 +134,7 @@ class Landlord(db.Model, SerializerMixin):
     __tablename__ = 'landlords_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique=True, nullable=False)
+    name = db.Column(db.String, nullable=False)
     issues = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
    
@@ -148,7 +148,10 @@ class Landlord(db.Model, SerializerMixin):
     serialize_rules = ("-ratings.landlord", 'ratings', '-properties.landlord', "properties")
 
     # -- validations -- ## 
-
+    def get_average_rating(self):
+        # Calculate the average rating based on related ratings
+        total_rating = sum(rating.rating for rating in self.ratings)
+        return total_rating / len(self.ratings) if self.ratings else 0
 
 # Call configure_mappers after all models are defined
 configure_mappers()
