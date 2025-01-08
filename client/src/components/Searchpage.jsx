@@ -21,9 +21,6 @@ const Searchpage = () => {
           throw new Error('Failed to fetch landlords');
         }
         const data = await response.json();
-
-          console.log(data); 
-
         // Sort by rating (ascending) to get the worst rated landlords first
         const sortedLandlords = data
           .sort((a, b) => a.rating - b.rating)

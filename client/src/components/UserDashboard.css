@@ -4,46 +4,51 @@
     margin: 0 auto;
   }
   
+  .searchpage-container {
+    padding: 20px;
+  }
+  
   .carousel-container {
-    margin-bottom: 30px;
+    width: 100%;
+  margin: 0 auto; /* Center the carousel */
+  }
+  /* Ensure each individual slide (landlord card) is styled properly */
+.slick-slide {
+  display: flex;
+  justify-content: center; /* Center the content inside each slide */
+}
+/* Optional: Add spacing between the carousel items */
+.slick-slide > div {
+  padding: 10px; /* Space between the landlord cards */
+}
+
+.slick-track {
+  display: flex;
+  flex-direction: row;  /* Force horizontal layout */
+}
+  .filter-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
   }
   
-  .worst-rated-container {
-    margin-top: 30px;
+  .filter-form {
+    margin-bottom: 10px;
   }
   
-  .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
+  .property-filter {
+    margin-top: 20px;
   }
   
   button {
     padding: 10px 20px;
-    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
     cursor: pointer;
   }
   
   button:hover {
     background-color: #0056b3;
-    color: white;
-  }
-  
-  .worst-rated-container ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .worst-rated-container li {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  
-  .landlord-card {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
   }
   
