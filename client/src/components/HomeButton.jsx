@@ -11,7 +11,7 @@ const HomeButton = () => {
 
   return (
     <button onClick={goToDashboard} className="home-button">
-      Go to Dashboard
+      Home
     </button>
   );
 };
