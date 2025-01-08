@@ -22,6 +22,8 @@ const Searchpage = () => {
         }
         const data = await response.json();
 
+          console.log(data); 
+
         // Sort by rating (ascending) to get the worst rated landlords first
         const sortedLandlords = data
           .sort((a, b) => a.rating - b.rating)
@@ -44,7 +46,7 @@ const Searchpage = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
       {
@@ -94,7 +96,6 @@ const Searchpage = () => {
         landlord.property.apartmentNumber.includes(apartmentNumberFilter)
       );
     }
-    console.log(filtered);
     setFilteredLandlords(filtered);  // Set the filtered landlords
   };
 

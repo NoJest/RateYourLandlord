@@ -11,18 +11,11 @@
   display: flex;
   justify-content: center; /* Center the content inside each slide */
 }
-
-.landlord-card {
-  width: 100%; /* Or use a fixed width like 300px for consistency */
-  margin: 0 10px; /* Optional margin for spacing between the cards */
+/* Optional: Add spacing between the carousel items */
+.slick-slide > div {
+  padding: 10px; /* Space between the landlord cards */
 }
 
-/* Adjust the size for responsive layouts */
-@media (max-width: 768px) {
-  .landlord-card {
-    width: 80%; /* Adjust width for smaller screens */
-  }
-}
 .slick-track {
   display: flex;
   flex-direction: row;  /* Force horizontal layout */

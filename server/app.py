@@ -82,7 +82,14 @@ def get_landlords():
         landlords = Landlord.query.all()
 
         # Prepare a list of landlords
-        landlord_list = [{"id": l.id, "name": l.name, "rating": l.get_average_rating()} for l in landlords]
+        landlord_list = [{
+            "id": l.id, 
+            "name": l.name, 
+            "rating": l.get_average_rating(),
+            "issues": l.issues
+        } for l in landlords]
+        
+        
         return jsonify(landlord_list), 200
     except Exception as e:
         print(f"Error fetching landlords: {str(e)}")  # Debugging line
@@ -125,21 +132,20 @@ def get_associated_landlords():
         user_id = request.args.get('userId')
 
         if not user_id:
-            return jsonify({"message": "userId parameter is required"}), 400
+            return jsonify({"message": "userId  is required"}), 400
 
         ratings = Rating.query.filter_by(user_id=user_id).all()
+        if not ratings:
+            return jsonify({"message": "No ratings found for this user."}), 404
         
-        # if not ratings:
-        #     return jsonify({"message": "No ratings found for this user."}), 404
-        # Query landlords associated with the specific userId
-        landlords = [rating.landlord for rating in ratings]
-        # if not landlords:
-        #     return jsonify({"message": "No landlords found for this user."}), 404
+        landlord_list = [{
+            "id": rating.landlord.id,
+            "name": rating.landlord.name,
+            "rating": rating.landlord.get_average_rating(),
+            "issues": rating.landlord.issues,
+            "image_url": rating.landlord.image_url
+        } for rating in ratings]
         
-        
-
-        # Prepare the landlord data to return
-        landlord_list = [{"id": l.id, "name": l.name, "rating": l.rating} for l in landlords]
         return jsonify(landlord_list), 200
 
     except Exception as e:
@@ -203,8 +209,9 @@ def create_rating():
 
     # Create a new rating for the landlord
     new_rating = Rating(
-        rating=data['rating'],
-        landlord_id=data['landlord_id'],
+        rating=data.get('rating'),
+        landlord_id=data.get('landlord_id'),
+        user_id=data.get('user_id'),  # Ensure user_id is sent from frontend, default to None if not provided by the user.
     )
     
     # Add to the database

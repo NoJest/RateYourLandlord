@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'; 
-
+import './LandlordCard.css'; // Assuming you have styles for the page
 function LandlordCard({ landlord }) {
     const navigate = useNavigate();
 
