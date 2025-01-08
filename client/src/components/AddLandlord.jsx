@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
-
+import HomeButton from './HomeButton';
 
 const AddLandlord = () => {
   const [name, setName] = useState('');
@@ -126,6 +126,7 @@ const AddLandlord = () => {
 
   return (
     <div className="add-landlord">
+      <HomeButton />
       <h2>Add a New Landlord</h2>
       <form onSubmit={handleSubmit}>
         {/* Landlord Information */}

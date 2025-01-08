@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
+import HomeButton from './HomeButton';
 
 const LandlordPage = () => {
   const { id } = useParams();  // Get the landlord id from the URL
@@ -47,6 +48,7 @@ const LandlordPage = () => {
       <p><strong>Issues:</strong> {landlord.issues}</p>
       {/* <p><strong>Properties:</strong> {landlord.properties}</p> */}
       {/* You can add more details or sections here */}
+      <HomeButton />  
     </div>
   );
 };
