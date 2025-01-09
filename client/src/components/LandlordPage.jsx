@@ -45,6 +45,7 @@ const LandlordPage = () => {
   // Show the landlord details once data is fetched
   return (
     <div className="landlord-detail">
+      <HomeButton />  
       <div className="landlord-card-container">
         <h2>{landlord.name}</h2>
         <img src={landlord.image_url} alt={landlord.name} />
@@ -79,7 +80,6 @@ const LandlordPage = () => {
       
       <AddPropertyButton landlordId={id}/>
       <AddRatingButton landlordId={id}/>  
-      <HomeButton />  
     </div>
   );
 };

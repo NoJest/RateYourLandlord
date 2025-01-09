@@ -80,12 +80,13 @@ def get_landlords():
     try:
         # Query all landlords from the database
         landlords = Landlord.query.all()
-
+        
         # Prepare a list of landlords
         landlord_list = [{
             "id": l.id, 
             "name": l.name, 
             "rating": l.get_average_rating(),
+            "rating_count": l.get_rating_count(),
             "issues": l.issues
         } for l in landlords]
         
