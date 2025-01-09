@@ -151,7 +151,10 @@ class Landlord(db.Model, SerializerMixin):
     def get_average_rating(self):
         # Calculate the average rating based on related ratings
         total_rating = sum(rating.rating for rating in self.ratings)
-        return total_rating / len(self.ratings) if self.ratings else 0
+        average = total_rating / len(self.ratings) if self.ratings else 0
+        return round(average, 1) #round to one decimal
+    def get_rating_count(self):
+        return len(self.ratings)  # Returns the count of ratings
 
 # Call configure_mappers after all models are defined
 configure_mappers()

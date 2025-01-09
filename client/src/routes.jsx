@@ -7,7 +7,8 @@ import UserDashboard from './components/UserDashboard'
 import Searchpage from './components/Searchpage'
 import AddLandlord from './components/AddLandlord'
 import LandlordPage from './components/LandlordPage'
-
+import AddProperty from './components/AddProperty'
+import AddRating from './components/AddRating'
 const routes = [
     {path: '/', element: <App />, 
         children: [ 
@@ -18,6 +19,8 @@ const routes = [
             {path: 'search', element: <Searchpage />},
             {path: 'addlandlord', element: <AddLandlord />},
             { path: 'landlord/:id', element: <LandlordPage /> },
+            { path: 'AddProperty/:id', element: <AddProperty /> },
+            { path: 'AddRating/:id', element: <AddRating /> },
         ] 
     },
 ]

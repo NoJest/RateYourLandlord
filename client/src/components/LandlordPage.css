@@ -1,0 +1,84 @@
+/* Ensure the whole content is centered */
+.landlord-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: flex-start; /* Align items to the top (instead of center) */
+    padding: 20px;
+    min-height: 100vh; /* Ensure there's enough space for the entire page */
+  }
+  
+  /* Style for the landlord card container */
+  .landlord-card-container {
+    text-align: center; /* Center the text */
+    width: 100%; /* Make the container take up the full width available */
+    max-width: 800px; /* Prevent it from becoming too wide */
+    padding: 30px;
+    border: 2px solid #ccc; /* Optional border */
+    border-radius: 10px; /* Optional rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+    background-color: #fff; /* White background */
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* Ensure the card container stays on top */
+  }
+  
+  /* Image styling */
+  .landlord-image {
+    width: 100%; /* Make the image responsive */
+    max-width: 500px; /* Set a max-width for large images */
+    height: auto;
+    border-radius: 10px; /* Optional: rounded corners for the image */
+    margin: 10px 0; /* Space around the image */
+  }
+  
+  /* Styling for the average rating text */
+  strong {
+    font-size: 1.2rem;
+    display: block; /* Make sure the rating is clearly separated from other text */
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Property carousel styling */
+  .property-carousel {
+    width: 100%;
+    max-width: 900px; /* Ensure carousel width is appropriate */
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .property-carousel .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .property-carousel .slick-prev, .property-carousel .slick-next {
+    z-index: 10; /* Ensure navigation arrows are visible */
+  }
+  
+  /* Property Card styling */
+  .property-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 100%;
+    max-width: 350px; /* Ensure the property card doesn't exceed this size */
+    margin: 10px;
+  }
+  
+  h2, h3 {
+    font-size: 2rem; /* Larger font size for headings */
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1rem; /* Adjust text size for readability */
+  }
+  

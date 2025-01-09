@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick'; // Slick carousel for displaying landlords
 import LandlordCard from './LandlordCard'; // Assuming you have this LandlordCard component
 import './Searchpage.css'; // Assuming you have styles for the page
-import HomeButton from './HomeButton';
+import HomeButton from './Buttons/HomeButton';
 const Searchpage = () => {
   const [landlords, setLandlords] = useState([]);  // State to store the landlords
   const [filteredLandlords, setFilteredLandlords] = useState([]);  // State for filtered landlords
@@ -134,7 +134,7 @@ const Searchpage = () => {
 
         {/* Property filter form */}
         <div className="property-filter">
-          <h4>Filter by Property</h4>
+          <h3>Filter by Property</h3>
 
           {/* Street Name filter */}
           <div className="filter-form">

@@ -39,7 +39,12 @@ const UserDashboard = () => {
       }
       const data = await response.json();
       // console.log('Associated landlords:', data);
-      setAssociatedLandlords(data);
+
+      // remove duplicates
+      const uniqueLandlords = [
+        ...new Map(data.map((landlord) => [landlord.id, landlord])).values()
+      ];
+      setAssociatedLandlords(uniqueLandlords);
     } catch (err) {
       console.error('Failed to fetch associated landlords:', err);
       setAssociatedLandlords([]); // Set to empty if the fetch fails
@@ -134,23 +139,6 @@ const UserDashboard = () => {
         <button onClick={() => navigate('/search')}>Search Landlords</button>
         <button onClick={handleLogout}>Logout</button> {/* Logout button */}
       </div>
-
-      {/* Top 5 worst-rated landlords */}
-      {/* <div className="worst-rated-container">
-        <h3>Top 5 Worst Rated Landlords</h3>
-        {worstRatedLandlords.length === 0 ? (
-          <p>No worst-rated landlords found.</p>
-        ) : (
-          <Slider {...carouselSettings}>
-            {worstRatedLandlords.map((landlord) => (
-              <div key={landlord.id}>
-                <LandlordCard landlord={landlord} />
-              </div>
-            ))}
-          </Slider>
-        )}
-      </div>
-       */}
     </div>
     
   );

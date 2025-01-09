@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
-import HomeButton from './HomeButton';
+import HomeButton from './Buttons/HomeButton';
 
 const AddLandlord = () => {
   const [name, setName] = useState('');

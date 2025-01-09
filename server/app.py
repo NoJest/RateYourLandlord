@@ -142,6 +142,7 @@ def get_associated_landlords():
             "id": rating.landlord.id,
             "name": rating.landlord.name,
             "rating": rating.landlord.get_average_rating(),
+            'rating_count': rating.landlord.get_rating_count(),
             "issues": rating.landlord.issues,
             "image_url": rating.landlord.image_url
         } for rating in ratings]
@@ -156,14 +157,16 @@ def get_landlord(id):
     try:
         landlord = Landlord.query.get(id)  # Query the database for the landlord by ID
         if landlord:
-             # Serialize the ratings using to_dict() 
-            ratings = [rating.to_dict() for rating in landlord.ratings] if landlord.ratings else 'No ratings available'
+            # Get the average rating and rating count 
+            average_rating = landlord.get_average_rating()
+            rating_count = landlord.get_rating_count()
             # Serialize the properties using to_dict() 
             properties = [property.to_dict() for property in landlord.properties] if landlord.properties else 'No properties available'
             return jsonify({
                 'id': landlord.id,
                 'name': landlord.name,
-                'ratings': ratings,  # Default if ratings are None
+                'average_rating': average_rating,  
+                'rating_count': rating_count,  
                 'image_url': landlord.image_url or 'No image available',  # Default if image is None
                 'issues': landlord.issues or 'No issues available',  # Default if issues are None
                 'properties': properties # Default if properties is None

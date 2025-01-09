@@ -56,13 +56,15 @@ function App() {
 
   // RENDER //
   return (
+    
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       <div className="App">
         {/* If there is no currentUser, show the homepage, otherwise show the dashboard */}
         {!currentUser ? (
           <>
             <Homepage />
-            <Outlet /> {/* Render nested routes for non-logged-in users */}
+            <Outlet /> 
+            {/* // Render nested routes for non-logged-in users */}
           </>
         ) : (
           <>

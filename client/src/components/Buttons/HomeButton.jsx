@@ -10,10 +10,25 @@ const HomeButton = () => {
   };
 
   return (
-    <button onClick={goToDashboard} className="home-button">
+    <button onClick={goToDashboard}
+      style={styles.button} 
+      className="home-button"
+    >
       Home
     </button>
   );
+  
+};
+
+const styles = {
+  button: {
+    padding: '10px 20px',
+    color: 'white',
+    border: 'white solid',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
 };
 
 export default HomeButton;
