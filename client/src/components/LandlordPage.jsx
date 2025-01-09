@@ -10,7 +10,7 @@ import './LandlordPage.css';
 // Settings for the carousel
 const carouselSettings = {
   dots: false, // Show dots for navigation
-  infinite: true, // Infinite loop
+  infinite: false, // Infinite loop
   speed: 500,
   slidesToShow: 1, // Show one property at a time
   slidesToScroll: 1, // Scroll one property at a time
