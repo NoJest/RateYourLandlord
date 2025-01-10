@@ -26,7 +26,14 @@ class Lease(db.Model, SerializerMixin):
     serialize_rules = ("-user.leases", 'user', '-properties.leases', "properties")
 
     # -- validations -- #
-
+    
+    
+    # Validation for end date
+    @validates('end_date')
+    def validate_end_date(self, key, end_date):
+        if end_date and end_date < self.start_date:
+            raise ValueError("End date cannot be before the start date")
+        return end_date
 
 # --- USERS --- #
 class User(db.Model, SerializerMixin):
@@ -81,6 +88,18 @@ class User(db.Model, SerializerMixin):
         if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
             raise ValueError("Invalid email format")
         return email    
+    @validates('username')
+    def validate_username(self, key, username):
+        if len(username) < 3:
+            raise ValueError("Username must be at least 3 characters long")
+        if len(username) > 20:
+            raise ValueError("Username cannot be longer than 20 characters")
+        if not re.match(r'^[a-zA-Z0-9_]+$', username):
+            raise ValueError("Username can only contain alphanumeric characters and underscores")
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            raise ValueError("Username is already taken")
+        return username
 
 
 # -- Rating -- #
@@ -102,6 +121,11 @@ class Rating(db.Model, SerializerMixin):
     serialize_rules = ("-landlord.ratings", "-user.ratings")
 
     # -- validations -- ## 
+    @validates('rating')
+    def validate_rating(self, key, rating):
+        if rating <= 0 or rating >= 5:
+            raise ValueError("Rating must be between 0 and 5")
+        return rating
 
 
 # -- Property -- #
@@ -127,7 +151,16 @@ class Property(db.Model, SerializerMixin):
     serialize_rules = ("-landlord.properties", "-leases.properties", "landlord", "leases")
 
     # -- validations -- ## 
-
+    @validates('zip_code')
+    def validate_zip_code(self, key, zip_code):
+        if len(str(zip_code)) != 5:
+            raise ValueError("Zip code must be 5 digits long")
+        return zip_code
+    @validates('street_number')
+    def validate_street_number(self, key, street_number):
+        if street_number <= 0:
+            raise ValueError("Street number must be a positive integer")
+        return street_number
 
 # -- Landlord -- #
 class Landlord(db.Model, SerializerMixin):
@@ -148,6 +181,19 @@ class Landlord(db.Model, SerializerMixin):
     serialize_rules = ("-ratings.landlord", 'ratings', '-properties.landlord', "properties")
 
     # -- validations -- ## 
+    @validates('name')
+    def validate_name(self, key, name):
+        if not name or len(name) < 3:
+            raise ValueError("Landlord name must be at least 3 characters long")
+        return name
+
+    @validates('image_url')
+    def validate_image_url(self, key, image_url):
+        if image_url and not re.match(r'^(https?|ftp)://[^\s/$.?#].[^\s]*$', image_url):
+            raise ValueError("Invalid URL format for image")
+        return image_url
+
+#Methods for average rating and rating_count
     def get_average_rating(self):
         # Calculate the average rating based on related ratings
         total_rating = sum(rating.rating for rating in self.ratings)
@@ -155,6 +201,41 @@ class Landlord(db.Model, SerializerMixin):
         return round(average, 1) #round to one decimal
     def get_rating_count(self):
         return len(self.ratings)  # Returns the count of ratings
+
+#add to landlord when i add the issues model
+# issues = db.relationship('Issue', back_populates='landlord', cascade="all, delete-orphan")
+# serialize_rules = ("-issues.landlord", 'issues')
+
+# class Issue(db.Model, SerializerMixin):
+#     __tablename__ = 'issues_table'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     description = db.Column(db.String, nullable=False)
+#     date_reported = db.Column(db.Date, default=datetime.date.today, nullable=False)
+
+#     # Foreign Key to Landlord
+#     landlord_id = db.Column(db.Integer, db.ForeignKey('landlords_table.id'))
+
+#     # Relationship with Landlord
+#     landlord = db.relationship('Landlord', back_populates='issues')
+
+#     # Serializing the issue for API use
+#     serialize_rules = ("-landlord.issues", "landlord")
+
+#     @validates('description')
+#     def validate_description(self, key, description):
+#         if len(description) < 10:
+#             raise ValueError("Description must be at least 10 characters long")
+#         return description
+
+#     @validates('date_reported')
+#     def validate_date_reported(self, key, date_reported):
+#         if date_reported > datetime.date.today():
+#             raise ValueError("Report date cannot be in the future")
+#         return date_reported
+
+
+
 
 # Call configure_mappers after all models are defined
 configure_mappers()

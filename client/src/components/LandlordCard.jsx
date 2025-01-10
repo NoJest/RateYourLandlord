@@ -22,7 +22,8 @@ function LandlordCard({ landlord }) {
       <img src={landlord.image} alt={landlord.name} />
       <h3>Name: {landlord.name}</h3>
       <h3>Rating: {landlord.rating}(<span>{landlord.rating_count}</span>)</h3>
-      <p>Complaints: {landlord.issues}</p>
+      <p> Click to learn more about this Landlord</p>
+      {/* <p>Complaints: {landlord.issues}</p> */}
       {/* <p>{landlord.properties}</p> */}
       {/* Potentially another card here */}
       {/* <PropertyCard></PropertyCard> */}
