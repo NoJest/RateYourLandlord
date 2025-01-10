@@ -189,8 +189,14 @@ class Landlord(db.Model, SerializerMixin):
 
     @validates('image_url')
     def validate_image_url(self, key, image_url):
-        if image_url and not re.match(r'^(https?|ftp)://[^\s/$.?#].[^\s]*$', image_url):
+    # If image_url is empty or None, return it as is without validation
+        if not image_url:
+            return image_url
+
+    # Validate the URL format if image_url is provided
+        if not re.match(r'^(https?|ftp)://[^\s/$.?#].[^\s]*$', image_url):
             raise ValueError("Invalid URL format for image")
+    
         return image_url
 
 #Methods for average rating and rating_count

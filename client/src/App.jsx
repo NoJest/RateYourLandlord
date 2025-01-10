@@ -5,7 +5,6 @@ import Homepage from './components/Homepage';
 import UserDashboard from './components/UserDashboard';
 
 export const UserContext = createContext();
-console.log("test")
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);

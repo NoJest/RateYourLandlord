@@ -4,6 +4,8 @@ import './LandlordCard.css'; // Assuming you have styles for the page
 function LandlordCard({ landlord }) {
     const navigate = useNavigate();
 
+    const defaultImageUrl = 'https://t3.ftcdn.net/jpg/08/57/80/96/360_F_857809650_hY4uYlIKOSKu8hela7K2sj4KPbILsNl5.jpg'
+
     // Handle click to navigate to the specific landlord's page
   const handleCardClick = () => {
     navigate(`/landlord/${landlord.id}`);  // Navigate to the landlord's page using their id
@@ -19,7 +21,8 @@ function LandlordCard({ landlord }) {
   return (
     <div className="landlord-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       {/* Displaying landlord information */}
-      <img src={landlord.image} alt={landlord.name} />
+      <img src={landlord.image_url || defaultImageUrl}
+      alt={landlord.name} />
       <h3>Name: {landlord.name}</h3>
       <h3>Rating: {landlord.rating}(<span>{landlord.rating_count}</span>)</h3>
       <p> Click to learn more about this Landlord</p>

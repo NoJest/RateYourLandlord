@@ -5,13 +5,14 @@ To Do
     --------------------------------------------------------
 Styling
 figure out how to get images hosted
-seed some good data for presentation
+seed some good data for presentation (first finalize backend)
+add Ai advice component
 figure out how to host the website 
+alter front end to handle adding issues and fixing the front end crud
     --------------------------------------------------------
     Back End
     --------------------------------------------------------
-Validates 
-
+add issues model, and crud
 
 
 
@@ -20,6 +21,7 @@ Validates
 ------------
 Done
 ------------
+-Validates 
 -Crud
 -routes
 -Make the landlord page have a carousel of the propertycards for each landlord each one showing the property and its LLC and management company if applicable

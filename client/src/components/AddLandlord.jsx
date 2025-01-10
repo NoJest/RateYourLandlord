@@ -148,7 +148,6 @@ const AddLandlord = () => {
             id="image_url"
             value={image_url}
             onChange={(e) => setImageUrl(e.target.value)}
-            required
           />
         </div>
 
@@ -192,7 +191,6 @@ const AddLandlord = () => {
             id="street_number"
             value={streetNumber}
             onChange={(e) => setStreetNumber(e.target.value)}
-            required
           />
         </div>
 
@@ -203,7 +201,6 @@ const AddLandlord = () => {
             id="street_name"
             value={streetName}
             onChange={(e) => setStreetName(e.target.value)}
-            required
           />
         </div>
 
@@ -224,7 +221,6 @@ const AddLandlord = () => {
             id="zip_code"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            required
           />
         </div>
 
@@ -236,7 +232,7 @@ const AddLandlord = () => {
             onChange={(e) => setIssues(e.target.value)}
           ></textarea>
         </div>
-        
+
         <button type="submit">Add Landlord</button>
       </form>
     </div>

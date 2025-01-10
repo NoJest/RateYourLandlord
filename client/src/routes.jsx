@@ -12,7 +12,7 @@ import AddRating from './components/AddRating'
 const routes = [
     {path: '/', element: <App />, 
         children: [ 
-            {path: '', element: <Homepage/>},
+            {path: 'homepage', element: <Homepage/>},
             {path: 'login', element: <Login />},
             {path: 'signup', element: <SignUp />},
             {path: 'dashboard', element: <UserDashboard />},
