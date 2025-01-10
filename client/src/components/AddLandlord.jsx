@@ -152,14 +152,6 @@ const AddLandlord = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="issues">Issues</label>
-          <textarea
-            id="issues"
-            value={issues}
-            onChange={(e) => setIssues(e.target.value)}
-          ></textarea>
-        </div>
 
         <div className="form-group">
           <label htmlFor="rating">Rating</label>
@@ -236,6 +228,15 @@ const AddLandlord = () => {
           />
         </div>
 
+        <div className="form-group">
+          <label htmlFor="issues">Issues</label>
+          <textarea
+            id="issues"
+            value={issues}
+            onChange={(e) => setIssues(e.target.value)}
+          ></textarea>
+        </div>
+        
         <button type="submit">Add Landlord</button>
       </form>
     </div>

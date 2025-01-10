@@ -4,6 +4,7 @@ import { UserContext } from '../App'; // Access the UserContext to get the curre
 import Slider from 'react-slick'; // Slick carousel for displaying landlords
 import LandlordCard from './LandlordCard';
 import './UserDashboard.css'; // Assuming you have some basic styles for the component
+import Button from '@/components/Buttons/Button'
 
 const UserDashboard = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext); // Get the current user
@@ -138,6 +139,8 @@ const UserDashboard = () => {
         <button onClick={() => navigate('/addlandlord')}>Add Landlord</button>
         <button onClick={() => navigate('/search')}>Search Landlords</button>
         <button onClick={handleLogout}>Logout</button> {/* Logout button */}
+        
+        {/* <Button>This is it</Button> */}
       </div>
     </div>
     

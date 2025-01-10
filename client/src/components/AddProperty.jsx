@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import HomeButton from './Buttons/HomeButton';
 
 const AddProperty = () => {
     
@@ -64,6 +65,7 @@ const AddProperty = () => {
 
   return (
     <div>
+      <HomeButton></HomeButton>
       <h2>Add New Property</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>

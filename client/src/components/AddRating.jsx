@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import HomeButton from './Buttons/HomeButton';
 
 const AddRating = () => {
   const { id } = useParams(); // Get landlord ID from the URL
@@ -65,6 +66,7 @@ const AddRating = () => {
 
   return (
     <div>
+      <HomeButton></HomeButton>
       <h2>Add Rating</h2>
       
       {/* Show error message */}

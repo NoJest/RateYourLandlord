@@ -3,15 +3,13 @@ To Do
 ------------
     Front End
     --------------------------------------------------------
-Flesh out logic in landlord and Property cards
-Make the landlord page have a carousel of the propertycards for each landlord each one showing the property and its LLC and management company if applicable
-add home buttons to all my pages (out)
-remover all the buttons
+Styling
+figure out how to get images hosted
+seed some good data for presentation
+figure out how to host the website 
     --------------------------------------------------------
     Back End
     --------------------------------------------------------
-Crud
-routes
 Validates 
 
 
@@ -22,6 +20,11 @@ Validates
 ------------
 Done
 ------------
+-Crud
+-routes
+-Make the landlord page have a carousel of the propertycards for each landlord each one showing the property and its LLC and management company if applicable
+-add home buttons to all my pages (out)
+-Flesh out logic in landlord and Property cards
 -Add routes for outlet on app.jsx 
 -LandlordsbyId needs to be altered so we poull the right attributes
 -LandlordsByuserid needs to be debugged 

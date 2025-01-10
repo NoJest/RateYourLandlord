@@ -23,7 +23,7 @@ const HomeButton = () => {
 const styles = {
   button: {
     padding: '10px 20px',
-    color: 'white',
+    color: 'black',
     border: 'white solid',
     borderRadius: '5px',
     cursor: 'pointer',
