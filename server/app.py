@@ -168,7 +168,7 @@ def get_landlord(id):
                 'name': landlord.name,
                 'average_rating': average_rating,  
                 'rating_count': rating_count,  
-                'image_url': landlord.image_url or 'No image available',  # Default if image is None
+                'image_url': landlord.image_url, 
                 'issues': landlord.issues or 'No issues available',  # Default if issues are None
                 'properties': properties # Default if properties is None
             })

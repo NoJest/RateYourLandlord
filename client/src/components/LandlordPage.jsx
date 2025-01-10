@@ -7,6 +7,8 @@ import AddPropertyButton from './Buttons/AddPropertyButton';
 import AddRatingButton from './Buttons/AddRatingButton';
 import './LandlordPage.css';
 
+const defaultImageUrl = 'https://t3.ftcdn.net/jpg/08/57/80/96/360_F_857809650_hY4uYlIKOSKu8hela7K2sj4KPbILsNl5.jpg'
+
 // Settings for the carousel
 const carouselSettings = {
   dots: false, // Show dots for navigation
@@ -43,12 +45,14 @@ const LandlordPage = () => {
     return <div>Loading...</div>;
   }
   // Show the landlord details once data is fetched
+  
   return (
     <div className="landlord-detail">
       <HomeButton />  
       <div className="landlord-card-container">
         <h2>{landlord.name}</h2>
-        <img src={landlord.image_url} alt={landlord.name} />
+        <img src={landlord.image_url || defaultImageUrl}
+         alt={landlord.name} />
       {/* Display the average rating */}
         <div>
           {landlord.average_rating ? (
