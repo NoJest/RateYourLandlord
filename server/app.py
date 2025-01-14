@@ -7,10 +7,12 @@ from flask import request, session, jsonify
 from flask_restful import Resource
 from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
+import re, datetime
+from datetime import date 
 
 # Local imports
 from config import app, db
-from models import db, User, Landlord, Rating, Lease, Property 
+from models import db, User, Landlord, Rating, Lease, Property , Issue
 # Add your model imports
 
 @app.route('/')
@@ -87,10 +89,8 @@ def get_landlords():
             "name": l.name, 
             "rating": l.get_average_rating(),
             "rating_count": l.get_rating_count(),
-            "issues": l.issues
+            "issues": [issue.to_dict() for issue in l.issues]  # Include issues
         } for l in landlords]
-        
-        
         return jsonify(landlord_list), 200
     except Exception as e:
         print(f"Error fetching landlords: {str(e)}")  # Debugging line
@@ -115,13 +115,10 @@ def create_landlord():
         new_landlord = Landlord(
             name=data.get('name'),
             image_url=data.get('image_url'),
-            issues=data.get('issues', None),
         )
-        
         # Add to the database
         db.session.add(new_landlord)
         db.session.commit()
-
         return jsonify(new_landlord.to_dict()), 201  # Respond with the created landlord
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -140,12 +137,12 @@ def get_associated_landlords():
             return jsonify({"message": "No ratings found for this user."}), 404
         
         landlord_list = [{
-            "id": rating.landlord.id,
-            "name": rating.landlord.name,
-            "rating": rating.landlord.get_average_rating(),
-            'rating_count': rating.landlord.get_rating_count(),
-            "issues": rating.landlord.issues,
-            "image_url": rating.landlord.image_url
+            "id": rating.landlord.id if rating.landlord else None,
+            "name": rating.landlord.name if rating.landlord else "Unknown",
+            "rating": rating.landlord.get_average_rating() if rating.landlord else None,
+            "rating_count": rating.landlord.get_rating_count() if rating.landlord else 0,
+            "issues": [issue.to_dict() for issue in rating.landlord.issues] if rating.landlord and rating.landlord.issues else [],
+            "image_url": rating.landlord.image_url if rating.landlord else None
         } for rating in ratings]
         
         return jsonify(landlord_list), 200
@@ -169,8 +166,8 @@ def get_landlord(id):
                 'average_rating': average_rating,  
                 'rating_count': rating_count,  
                 'image_url': landlord.image_url, 
-                'issues': landlord.issues or 'No issues available',  # Default if issues are None
-                'properties': properties # Default if properties is None
+                'issues': [issue.to_dict() for issue in landlord.issues],
+                'properties': [property.to_dict() for property in landlord.properties]
             })
         else:
             return jsonify({'message': 'Landlord not found'}), 404
@@ -178,7 +175,39 @@ def get_landlord(id):
         # Log the error for debugging
         print(f"Error fetching landlord {id}: {str(e)}")
         return jsonify({'message': f"Error fetching landlord: {str(e)}"}), 500
+@app.route('/api/issues', methods=['POST'])
+def create_issue():
+    try:
+        data = request.json
+        description = data.get('description')
+        landlord_id = data.get('landlord_id')
 
+        if not description or len(description) < 10:
+            return jsonify({'error': 'Description must be at least 10 characters long'}), 400
+        if not landlord_id:
+            return jsonify({'error': 'landlord_id is required'}), 400
+
+        new_issue = Issue(
+            description=description,
+            landlord_id=landlord_id,
+            date_reported=datetime.date.today(),
+        )
+        db.session.add(new_issue)
+        db.session.commit()
+
+        return jsonify(new_issue.to_dict()), 201
+    except Exception as e:
+        app.logger.error(f"Error creating issue: {str(e)}")
+        return jsonify({'error': f"Server error: {str(e)}"}), 500
+@app.route('/api/issues/<int:landlord_id>', methods=['GET'])
+def get_issues_for_landlord(landlord_id):
+    try:
+        issues = Issue.query.filter_by(landlord_id=landlord_id).all()
+        if not issues:
+            return jsonify({"message": "No issues found for this landlord."}), 404
+        return jsonify([issue.to_dict() for issue in issues]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 @app.route('/api/properties', methods=['POST'])
 def create_property():
     data = request.get_json()

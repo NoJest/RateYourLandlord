@@ -5,6 +5,7 @@ import Slider from 'react-slick'; // Import the carousel component
 import PropertyCard from './PropertyCard'; // Import PropertyCard component
 import AddPropertyButton from './Buttons/AddPropertyButton';
 import AddRatingButton from './Buttons/AddRatingButton';
+import AddIssueButton from './Buttons/AddIssueButton';
 import './LandlordPage.css';
 
 const defaultImageUrl = 'https://t3.ftcdn.net/jpg/08/57/80/96/360_F_857809650_hY4uYlIKOSKu8hela7K2sj4KPbILsNl5.jpg'
@@ -64,7 +65,26 @@ const LandlordPage = () => {
          )}
         </div>
 
-        <p><strong>Issues:</strong> {landlord.issues}</p>
+        {/* Issues Carousel */}
+      <h3>Reported Issues</h3>
+      <div className="issues-carousel">
+        {Array.isArray(landlord.issues) && landlord.issues.length > 0 ? (
+          <Slider {...carouselSettings}>
+            {landlord.issues.map((issue) => (
+              <div key={issue.id} className="issue-card">
+                <p>
+                  <strong>Description:</strong> {issue.description}
+                </p>
+                <p>
+                  <strong>Date Reported:</strong> {issue.date_reported}
+                </p>
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          <p>No issues reported</p>
+        )}
+      </div>
       </div>
       {/* Property Carousel */}
       <h3>Properties</h3>
@@ -84,6 +104,7 @@ const LandlordPage = () => {
       
       <AddPropertyButton landlordId={id}/>
       <AddRatingButton landlordId={id}/>  
+      <AddIssueButton landlordId={id}/>
     </div>
   );
 };

@@ -36,8 +36,13 @@ const UserDashboard = () => {
     try {
       const response = await fetch(`/api/landlords/associated?userId=${currentUser.id}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch associated landlords');
+        if (response.status === 404) {
+          console.error('No ratings found for this user.');
+          setAssociatedLandlords([]); // Set empty list
+          return;
       }
+      throw new Error(`fetch failed with status ${response.status}`);
+    }
       const data = await response.json();
       // console.log('Associated landlords:', data);
 

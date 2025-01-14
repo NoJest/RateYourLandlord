@@ -6,6 +6,7 @@ const AddLandlord = () => {
   const [name, setName] = useState('');
   const [image_url, setImageUrl] = useState('');
   const [issues, setIssues] = useState('');
+  const [dateReported, setDateReported] = useState('');
   const [rating, setRating] = useState('');
   const [llc, setLlc] = useState('');
   const [propertyManagement, setPropertyManagement] = useState('');
@@ -20,14 +21,13 @@ const AddLandlord = () => {
 
      // Validate required fields
   if (!name || !rating || !streetNumber || !streetName || !zipCode) {
-    alert("Please fill in all required fields!");
+    alert("Name, rating , and address must be provided");
     return;
   }
 
     const landlordData = {
       name,
       image_url,
-      issues,
       ratings: parseInt(rating), // Ensure it's an integer
     };
 
@@ -58,8 +58,6 @@ const AddLandlord = () => {
              user_id:userId,
         }),
       });
-     
-
       if (!landlordResponse.ok) {
         throw new Error('Failed to create landlord');
       }
@@ -80,9 +78,32 @@ const AddLandlord = () => {
       if (!propertyResponse.ok) {
         throw new Error('Failed to create property');
       }
-      const property = await propertyResponse.json(); // Get the created property (with ID)
+      // const property = await propertyResponse.json(); // Get the created property (with ID)
 
-      // Optional: Step 3: Create a rating for the landlord (if needed)
+      // Step 3: Create issues for the landlord
+      const issuesArray = issues.split(',').map((issue) => issue.trim()); // Split by comma
+      for (const issueDescription of issuesArray) {
+        if (issueDescription) {
+          const issuePayload = {
+            description: issueDescription,
+            landlord_id: landlord.id,
+            date_reported: dateReported || new Date().toISOString().split('T')[0], // Use provided or default to today's date
+          };
+          const issueResponse = await fetch('/api/issues', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(issuePayload),
+            });
+          
+
+          if (!issueResponse.ok) {
+            throw new Error('Failed to create an issue');
+          }
+        }
+      }
+      // Optional: Step 4: Create a rating for the landlord (if needed)
       const ratingData = {
         rating: parseInt(rating),
         landlord_id: landlord.id,
@@ -102,7 +123,7 @@ const AddLandlord = () => {
       }
 
       // If everything is successful, reset the form
-      alert('Landlord and property added successfully!');
+      alert('Landlord, property and issues added successfully!');
       resetForm();
     } catch (error) {
       console.error(error);
@@ -115,6 +136,7 @@ const AddLandlord = () => {
     setName('');
     setImageUrl('');
     setIssues('');
+    setDateReported('');
     setRating('');
     setLlc('');
     setPropertyManagement('');
@@ -230,7 +252,18 @@ const AddLandlord = () => {
             id="issues"
             value={issues}
             onChange={(e) => setIssues(e.target.value)}
+            placeholder="e.g., Broken pipe, Leaking roof"
           ></textarea>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="date_reported">Date Reported</label>
+          <input
+            type="date"
+            id="date_reported"
+            value={dateReported}
+            onChange={(e) => setDateReported(e.target.value)}
+          />
         </div>
 
         <button type="submit">Add Landlord</button>

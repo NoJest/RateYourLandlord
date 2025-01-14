@@ -168,17 +168,17 @@ class Landlord(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    issues = db.Column(db.String, nullable=True)
     image_url = db.Column(db.String, nullable=True)
    
 
     # -- relationships -- #
     ratings = db.relationship('Rating', back_populates="landlord")
     properties = db.relationship('Property', back_populates="landlord")
-    
+    issues = db.relationship('Issue', back_populates='landlord', cascade="all, delete-orphan")
 
     # -- serializing -- #
-    serialize_rules = ("-ratings.landlord", 'ratings', '-properties.landlord', "properties")
+    serialize_rules = ("-ratings.landlord", 'ratings', '-properties.landlord', "properties","-issues.landlord", 'issues')
+
 
     # -- validations -- ## 
     @validates('name')
@@ -208,37 +208,35 @@ class Landlord(db.Model, SerializerMixin):
     def get_rating_count(self):
         return len(self.ratings)  # Returns the count of ratings
 
-#add to landlord when i add the issues model
-# issues = db.relationship('Issue', back_populates='landlord', cascade="all, delete-orphan")
-# serialize_rules = ("-issues.landlord", 'issues')
 
-# class Issue(db.Model, SerializerMixin):
-#     __tablename__ = 'issues_table'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     description = db.Column(db.String, nullable=False)
-#     date_reported = db.Column(db.Date, default=datetime.date.today, nullable=False)
+class Issue(db.Model, SerializerMixin):
+    __tablename__ = 'issues_table'
 
-#     # Foreign Key to Landlord
-#     landlord_id = db.Column(db.Integer, db.ForeignKey('landlords_table.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String, nullable=False)
+    date_reported = db.Column(db.Date, default=datetime.date.today, nullable=True)
 
-#     # Relationship with Landlord
-#     landlord = db.relationship('Landlord', back_populates='issues')
+    # Foreign Key to Landlord
+    landlord_id = db.Column(db.Integer, db.ForeignKey('landlords_table.id'))
 
-#     # Serializing the issue for API use
-#     serialize_rules = ("-landlord.issues", "landlord")
+    # Relationship with Landlord
+    landlord = db.relationship('Landlord', back_populates='issues')
 
-#     @validates('description')
-#     def validate_description(self, key, description):
-#         if len(description) < 10:
-#             raise ValueError("Description must be at least 10 characters long")
-#         return description
+    # Serializing the issue for API use
+    serialize_rules = ("-landlord.issues", "landlord")
 
-#     @validates('date_reported')
-#     def validate_date_reported(self, key, date_reported):
-#         if date_reported > datetime.date.today():
-#             raise ValueError("Report date cannot be in the future")
-#         return date_reported
+    @validates('description')
+    def validate_description(self, key, description):
+        if len(description) < 10:
+            raise ValueError("Description must be at least 10 characters long")
+        return description
+
+    @validates('date_reported')
+    def validate_date_reported(self, key, date_reported):
+        if date_reported > datetime.date.today():
+            raise ValueError("Report date cannot be in the future")
+        return date_reported
 
 
 

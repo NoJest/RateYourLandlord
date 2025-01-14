@@ -9,6 +9,7 @@ seed some good data for presentation (first finalize backend)
 add Ai advice component
 figure out how to host the website 
 alter front end to handle adding issues and fixing the front end crud
+Make it so after signup redirected to login page
     --------------------------------------------------------
     Back End
     --------------------------------------------------------

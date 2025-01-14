@@ -9,6 +9,7 @@ import AddLandlord from './components/AddLandlord'
 import LandlordPage from './components/LandlordPage'
 import AddProperty from './components/AddProperty'
 import AddRating from './components/AddRating'
+import AddIssue from './components/AddIssue'
 const routes = [
     {path: '/', element: <App />, 
         children: [ 
@@ -21,6 +22,7 @@ const routes = [
             { path: 'landlord/:id', element: <LandlordPage /> },
             { path: 'AddProperty/:id', element: <AddProperty /> },
             { path: 'AddRating/:id', element: <AddRating /> },
+            { path: 'AddIssue/:id', element: <AddIssue /> },
         ] 
     },
 ]
