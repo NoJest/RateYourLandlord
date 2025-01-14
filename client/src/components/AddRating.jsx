@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Input } from "@/components/ui/input"; // ShadCN Input
+import { Button } from "@/components/ui/button"; // ShadCN Button
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // ShadCN Card
+import { Alert, AlertDescription } from "@/components/ui/alert"; // ShadCN Alert
 import HomeButton from './Buttons/HomeButton';
 
 const AddRating = () => {
   const { id } = useParams(); // Get landlord ID from the URL
   const navigate = useNavigate(); // Used for navigation after form submission
 
-  // Local state for the rating
   const [rating, setRating] = useState('');
   const [userId, setUserId] = useState(''); // Assuming userId is available in the session or from context
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
- 
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Assuming 'currentUser' is stored as an object
@@ -20,13 +22,13 @@ const AddRating = () => {
     } else {
       setErrorMessage('You must be logged in to rate.');
     }
-  }, []); // Empty dependency array to run once when the component mounts
-  // Handle form submission
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!rating || !userId) {
-      setErrorMessage('Must be logged in to rate');
+      setErrorMessage('You must be logged in to rate.');
       return;
     }
 
@@ -39,7 +41,7 @@ const AddRating = () => {
         body: JSON.stringify({
           rating: parseInt(rating),
           landlord_id: id, // The landlord ID from the URL
-          user_id: userId,  // Assuming the user is logged in and userId is available
+          user_id: userId, // Assuming the user is logged in and userId is available
         }),
       });
 
@@ -47,17 +49,14 @@ const AddRating = () => {
         throw new Error('Failed to add rating');
       }
 
-      // Reset form and show success message
       setRating('');
       setErrorMessage('');
       setSuccessMessage('Rating added successfully!');
 
-      // Optionally, navigate to the landlord page or clear the message after a while
       setTimeout(() => {
         setSuccessMessage('');
         navigate(`/landlord/${id}`); // Redirect back to the landlord page
       }, 2000);
-      
     } catch (error) {
       setErrorMessage(error.message);
       setSuccessMessage('');
@@ -65,34 +64,47 @@ const AddRating = () => {
   };
 
   return (
-    <div>
-      <HomeButton></HomeButton>
-      <h2>Add Rating</h2>
-      
-      {/* Show error message */}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-
-      {/* Show success message */}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Rating (1 to 5):
-            <input
-              type="number"
-              min="1"
-              max="5"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-        
-
-        <button type="submit">Submit Rating</button>
-      </form>
+    <div className="container mx-auto p-4">
+      <HomeButton />
+      <Card className="mx-auto max-w-md shadow-md">
+        <CardHeader>
+          <CardTitle className="text-center">Add Rating</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {errorMessage && (
+            <Alert className="mb-4" variant="destructive">
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert className="mb-4" variant="success">
+              <AlertDescription>{successMessage}</AlertDescription>
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1" htmlFor="rating">
+                Rating (1 to 5)
+              </label>
+              <Input
+                id="rating"
+                type="number"
+                min="1"
+                max="5"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                placeholder="Enter a rating"
+                required
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button type="submit" variant="default" className="w-full">
+                Submit Rating
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

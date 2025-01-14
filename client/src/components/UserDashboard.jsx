@@ -1,154 +1,114 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../App'; // Access the UserContext to get the current user
-import Slider from 'react-slick'; // Slick carousel for displaying landlords
+import { UserContext } from '../App'; 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import LandlordCard from './LandlordCard';
-import './UserDashboard.css'; // Assuming you have some basic styles for the component
-import Button from '@/components/Buttons/Button'
-
+import './UserDashboard.css' 
 const UserDashboard = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext); // Get the current user
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [associatedLandlords, setAssociatedLandlords] = useState([]);
-  const [worstRatedLandlords, setWorstRatedLandlords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Navigate to different pages
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear the current user from state and localStorage
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
-    
-    // Navigate to the homepage or login page
-    navigate('/');
+    navigate('/login');
   };
-  
 
-  // If there's no currentUser, redirect to the login page
   useEffect(() => {
     if (!currentUser) {
-      navigate('/login'); // Redirect to login page if no user is logged in
+      navigate('/login');
     }
-  }, []);
+  }, [currentUser, navigate]);
 
-  // Fetch associated landlords for the current user
   const fetchAssociatedLandlords = async () => {
     try {
       const response = await fetch(`/api/landlords/associated?userId=${currentUser.id}`);
       if (!response.ok) {
         if (response.status === 404) {
-          console.error('No ratings found for this user.');
-          setAssociatedLandlords([]); // Set empty list
+          setAssociatedLandlords([]);
           return;
+        }
+        throw new Error('Failed to fetch associated landlords');
       }
-      throw new Error(`fetch failed with status ${response.status}`);
-    }
       const data = await response.json();
-      // console.log('Associated landlords:', data);
+      // Remove duplicates by using a Map
+      const uniqueLandlords = Array.from(
+        new Map(data.map((landlord) => [landlord.id, landlord])).values()
+      );
 
-      // remove duplicates
-      const uniqueLandlords = [
-        ...new Map(data.map((landlord) => [landlord.id, landlord])).values()
-      ];
       setAssociatedLandlords(uniqueLandlords);
     } catch (err) {
-      console.error('Failed to fetch associated landlords:', err);
-      setAssociatedLandlords([]); // Set to empty if the fetch fails
       setError('Failed to fetch associated landlords');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch top 5 worst-rated landlords
-  const fetchWorstRatedLandlords = async () => {
-    try {
-      const response = await fetch('/api/landlords');
-      if (!response.ok) throw new Error('Failed to fetch landlords');
-      const data = await response.json();
-      const sortedLandlords = data
-        .sort((a, b) => a.rating - b.rating) // Sort by rating (ascending)
-        .slice(0, 5); // Get top 5 worst-rated landlords
-      setWorstRatedLandlords(sortedLandlords);
-    } catch (err) {
-      console.error('Failed to fetch landlords:', err);
-      setWorstRatedLandlords([]); // Set to empty if the fetch fails
-      setError('Failed to fetch worst-rated landlords');
-    }
-  };
-
-  // Fetch data on component mount
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser) {
-        try {
-          setLoading(true);
-          await Promise.all([fetchAssociatedLandlords(), fetchWorstRatedLandlords()]);
-        } catch (err) {
-          setError('Failed to load data');
-        } finally {
-          setLoading(false); // Set loading to false once both fetches are complete
-        }
+        setLoading(true);
+        await fetchAssociatedLandlords();
       }
     };
-
     fetchData();
   }, [currentUser]);
 
-  // Carousel settings
-  const carouselSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
-  // Loading state and UI rendering
   if (loading) {
-    return <div>Loading...</div>; // Show loading while data is being fetched
+    return (
+      <div className="p-4">
+        <Skeleton className="skeleton h-6" />
+        <Skeleton className="skeleton h-40" />
+      </div>
+    );
   }
+
   if (error) {
-    return <div>{error}</div>;
+    return <div className="p-4 text-red-500">{error}</div>;
   }
 
   return (
-    <div className="user-dashboard">
-      <h2>Welcome, {currentUser.username}</h2>
+    <div className="container">
+      <h2 className="dashboard-welcome">Welcome, {currentUser.username}</h2>
 
-      {/* Carousel of landlords associated with the signed-in user */}
-      <div className="carousel-container">
-        <h3>Landlords Associated with You</h3>
-        {associatedLandlords.length === 0 ? (
-          <p>No landlords associated with your account.</p>
+      <div className="carousel-section">
+        <h3 className="carousel-title">Landlords</h3>
+        {associatedLandlords.length > 0 ? (
+          <Carousel className="carousel">
+            <CarouselContent className="carousel-content">
+              {associatedLandlords.map((landlord, index) => (
+                <CarouselItem key={`${landlord.id}-${index}`} className="carousel-item">
+                  <LandlordCard landlord={landlord} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         ) : (
-          <Slider {...carouselSettings}>
-            {associatedLandlords.map((landlord) => (
-              <div key={landlord.id}>
-                <LandlordCard landlord={landlord} />
-              </div>
-            ))}
-          </Slider>
+          <p className="empty-message">No landlords associated with your account.</p>
         )}
       </div>
 
-      {/* Buttons for navigation */}
       <div className="action-buttons">
-        <button onClick={() => navigate('/addlandlord')}>Add Landlord</button>
-        <button onClick={() => navigate('/search')}>Search Landlords</button>
-        <button onClick={handleLogout}>Logout</button> {/* Logout button */}
-        
-        {/* <Button>This is it</Button> */}
+        <Button onClick={() => navigate('/addlandlord')}>Add Landlord</Button>
+        <Button onClick={() => navigate('/search')}>Search Landlords</Button>
+        <Button className="logout-button" onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
     </div>
-    
   );
 };
 

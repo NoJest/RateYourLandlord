@@ -1,54 +1,120 @@
-.user-dashboard {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .searchpage-container {
-    padding: 20px;
-  }
-  
-  .carousel-container {
-    width: 100%;
-  margin: 0 auto; /* Center the carousel */
-  }
-  /* Ensure each individual slide (landlord card) is styled properly */
-.slick-slide {
-  display: flex;
-  justify-content: center; /* Center the content inside each slide */
-}
-/* Optional: Add spacing between the carousel items */
-.slick-slide > div {
-  padding: 10px; /* Space between the landlord cards */
+/* Container for the entire dashboard */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-.slick-track {
-  display: flex;
-  flex-direction: row;  /* Force horizontal layout */
+/* Welcome message */
+.dashboard-welcome {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #1f2937; /* Dark gray */
 }
-  .filter-section {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
+
+/* Section for carousel */
+.carousel-section {
+  margin-bottom: 32px;
+}
+
+/* Carousel title */
+.carousel-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1f2937; /* Dark gray */
+}
+
+/* Empty state message */
+.empty-message {
+  text-align: center;
+  color: #6b7280; /* Gray text */
+  font-size: 1rem;
+  margin-top: 16px;
+}
+
+/* Carousel styling */
+.carousel {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carousel-content {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  max-width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.action-buttons button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.action-buttons button:hover {
+  background-color: #2563eb; /* Blue hover effect */
+  color: #fff; /* White text */
+}
+
+.logout-button {
+  background-color: #ef4444; /* Red background */
+  color: #fff; /* White text */
+}
+
+.logout-button:hover {
+  background-color: #dc2626; /* Darker red */
+}
+
+/* Skeleton for loading state */
+.skeleton {
+  background: #e5e7eb; /* Light gray */
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton.h-6 {
+  height: 24px;
+  width: 120px;
+  margin-bottom: 16px;
+}
+
+.skeleton.h-40 {
+  height: 160px;
+  width: 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
   }
-  
-  .filter-form {
-    margin-bottom: 10px;
+  100% {
+    background-position: 200px 0;
   }
-  
-  .property-filter {
-    margin-top: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+}

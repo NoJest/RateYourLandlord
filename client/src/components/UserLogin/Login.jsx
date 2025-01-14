@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App'; // Import UserContext
-import './Login.css';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 const Login = () => {
-  // const thing = useContext(UserContext)
-  // console.log(thing)
-  // debuggggging
-  const { setCurrentUser, currentUser } = useContext(UserContext);  // Access setCurrentUser from context
+  const { setCurrentUser, currentUser } = useContext(UserContext); // Access setCurrentUser from context
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();  // Used to navigate to the dashboard
+  const navigate = useNavigate(); // Used to navigate to the dashboard
 
   // Handle input changes
   const handleUsernameChange = (e) => setUsername(e.target.value);
@@ -51,55 +51,58 @@ const Login = () => {
       setError(err.message); // Handle errors (e.g., invalid credentials)
     }
   };
-  // console.log({setCurrentUser})
-
 
   // Check if the user is already logged in and redirect to dashboard
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    // console.log('Stored User:', JSON.parse(storedUser)); // Debugging: check if user is stored in localStorage
-    // console.log(currentUser)
     if (storedUser && !currentUser) {
       setCurrentUser(JSON.parse(storedUser)); // Load user from localStorage
-      // navigate('/dashboard'); // Redirect to dashboard if user is already logged in
     }
-  }, []);  // `setCurrentUser` and `navigate` are stable, so this runs once on mount
+  }, []); // `setCurrentUser` is stable, so this runs once on mount
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <Card className="w-full max-w-md p-6 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-center text-lg">Login</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="form-group">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={handleUsernameChange}
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
 
-        {error && <div className="error-message">{error}</div>}
+            {error && <div className="text-red-500 text-sm">{error}</div>}
 
-        <div className="form-group">
-          <button type="submit">Login</button>
-        </div>
-      </form>
+            <div className="form-group">
+              <Button type="submit" variant="default" className="w-full">
+                Login
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

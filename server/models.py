@@ -156,11 +156,11 @@ class Property(db.Model, SerializerMixin):
         if len(str(zip_code)) != 5:
             raise ValueError("Zip code must be 5 digits long")
         return zip_code
-    @validates('street_number')
-    def validate_street_number(self, key, street_number):
-        if street_number <= 0:
-            raise ValueError("Street number must be a positive integer")
-        return street_number
+    # @validates('street_number')
+    # def validate_street_number(self, key, street_number):
+    #     if street_number <= 0:
+    #         raise ValueError("Street number must be a positive integer")
+    #     return street_number
 
 # -- Landlord -- #
 class Landlord(db.Model, SerializerMixin):

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button'; // Import ShadCN Button
 
-const AddIssueButton = ({landlordId}) => {
+const AddIssueButton = ({ landlordId }) => {
   // useNavigate hook from React Router
   const navigate = useNavigate();
 
@@ -11,25 +12,16 @@ const AddIssueButton = ({landlordId}) => {
   };
 
   return (
-    <button 
-      onClick={handleClick}
-      style={styles.button} 
-      className="add-issue-btn">
-      Add Issue
-    </button>
+    <div className="mb-4">
+      <Button 
+        variant="default" 
+        className="w-full" 
+        onClick={handleClick}
+      >
+        Add Issue
+      </Button>
+    </div>
   );
-};
-
-const styles = {
-  button: {
-    padding: '10px 20px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'white solid',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  },
 };
 
 export default AddIssueButton;

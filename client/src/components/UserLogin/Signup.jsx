@@ -1,16 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../App'; // Import UserContext if you need it
-import './Signup.css'; // Import the CSS for Signup component
+import { UserContext } from '../../App'; // Import UserContext
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 const Signup = () => {
-  const { setCurrentUser } = useContext(UserContext); // You can use this to update the logged-in user if needed
+  const { setCurrentUser } = useContext(UserContext); // Access UserContext
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -33,7 +37,6 @@ const Signup = () => {
     }
 
     try {
-      // Send data to backend to create a new user
       const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
@@ -46,93 +49,93 @@ const Signup = () => {
         throw new Error('Failed to create account. Please try again.');
       }
 
-      const data = await response.json(); // Assuming the response returns user data
-
-      // Optionally set the user as the current user if the signup is successful
+      const data = await response.json();
       setCurrentUser(data);
-
-      // Save user data in localStorage
       localStorage.setItem('currentUser', JSON.stringify(data));
-
-      setSuccessMessage('Account created successfully! Please log in.');
+      setSuccessMessage('Account created successfully! Redirecting...');
       setEmail('');
       setUsername('');
       setPassword('');
       setPasswordConfirm('');
       setError('');
-      // After a short delay, navigate to the /dashboard route
+
       setTimeout(() => {
-        navigate('/dashboard');  // Redirect to the dashboard page
-      }, 2000);  // You can adjust the delay time as per your preferenc
+        navigate('/dashboard'); // Redirect to dashboard
+      }, 2000);
     } catch (err) {
-      setError(err.message); // Handle any error that occurred
+      setError(err.message);
     }
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="Enter your email"
-            required
-          />
-        </div>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <Card className="w-full max-w-md p-6 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-center text-lg">Sign Up</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="form-group">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={handleEmailChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={handleUsernameChange}
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="passwordConfirm">Confirm Password</Label>
+              <Input
+                type="password"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                value={passwordConfirm}
+                onChange={handlePasswordConfirmChange}
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
+            {/* Show error or success message */}
+            {error && <div className="text-red-500 text-sm">{error}</div>}
+            {successMessage && <div className="text-green-500 text-sm">{successMessage}</div>}
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="passwordConfirm">Confirm Password</label>
-          <input
-            type="password"
-            id="passwordConfirm"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={handlePasswordConfirmChange}
-            placeholder="Confirm your password"
-            required
-          />
-        </div>
-
-        {/* Show error or success message */}
-        {error && <div className="error-message">{error}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
-
-        <div className="form-group">
-          <button type="submit">Sign Up</button>
-        </div>
-      </form>
+            <div className="form-group">
+              <Button type="submit" variant="default" className="w-full">
+                Sign Up
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

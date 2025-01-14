@@ -1,21 +1,32 @@
-import React from 'react'
+import React from 'react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
 
 function PropertyCard({ landlord }) {
   return (
-    <div className="property-card">
-      <p>Address:{landlord.apartment_number} {landlord.street_number} {landlord.street_name} {landlord.zip_code}</p>
-      <p>Property Management Company:{landlord.property_management}</p>
-      <p>LLC associated with property:{landlord.llc}</p>
-    </div>
+    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
+      <CardHeader>
+        <p className="text-sm">
+          <strong>Address:</strong> {landlord.apartment_number || 'N/A'}{' '}
+          {landlord.street_number || 'N/A'} {landlord.street_name || 'N/A'}{' '}
+          {landlord.zip_code || 'N/A'}
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <p className="text-sm">
+          <strong>LLC:</strong> {landlord.llc || 'N/A'}
+        </p>
+        <CardDescription>
+          Managed by: {landlord.property_management || 'N/A'}
+        </CardDescription>
+      </CardContent>
+    </Card>
   );
 }
 
-//     <div>
-//         <p>{landlord.property.lcc}</p>
-//         <p>{landlord.property.mgmt}</p>
-//         <p>{landlord.property.apartmentent_number} {landlord.property.street_number} {landlord.property.street_name} {landlord.property.zipcode}</p>
-//     </div>
-//   )
-// }
-
-export default PropertyCard
+export default PropertyCard;

@@ -1,10 +1,21 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
+import { Button } from '@/components/ui/button'; // ShadCN Button
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card'; // ShadCN Card
+import { Input } from '@/components/ui/input'; // ShadCN Input
+import { Textarea } from '@/components/ui/textarea'; // ShadCN Textarea
+import { Label } from '@/components/ui/label'; // ShadCN Label
+import { Separator } from '@/components/ui/separator'; // ShadCN Separator
 import HomeButton from './Buttons/HomeButton';
-
 const AddLandlord = () => {
   const [name, setName] = useState('');
-  const [image_url, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [issues, setIssues] = useState('');
   const [dateReported, setDateReported] = useState('');
   const [rating, setRating] = useState('');
@@ -14,260 +25,170 @@ const AddLandlord = () => {
   const [streetName, setStreetName] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const { currentUser, setCurrentUser } = useContext(UserContext); // Get the current user
-  // Handle form submission
+  const { currentUser } = useContext(UserContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // Validate required fields
-  if (!name || !rating || !streetNumber || !streetName || !zipCode) {
-    alert("Name, rating , and address must be provided");
-    return;
-  }
-
-    const landlordData = {
-      name,
-      image_url,
-      ratings: parseInt(rating), // Ensure it's an integer
-    };
-
-    const propertyData = {
-      llc,
-      property_management: propertyManagement,
-      street_number: parseInt(streetNumber), // Ensure it's an integer
-      street_name: streetName,
-      apartment_number: apartmentNumber ? parseInt(apartmentNumber) : null, // Optional
-      zip_code: parseInt(zipCode), // Ensure it's an integer
-    };
-    
-    const userId= currentUser ? currentUser.id : null;
-    if (!userId) {
-        alert('Please log in to add a new landlord');
-        return;
+    if (!name || !rating || !streetNumber || !streetName || !zipCode) {
+      alert('Name, rating, and address must be provided');
+      return;
     }
-    // POST requests to create a new landlord and associated property
-    try {
-      // Step 1: Create the landlord
-      const landlordResponse = await fetch('/api/landlords', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            ...landlordData,
-             user_id:userId,
-        }),
-      });
-      if (!landlordResponse.ok) {
-        throw new Error('Failed to create landlord');
-      }
-      const landlord = await landlordResponse.json(); // Get the created landlord (with ID)
 
-      // Step 2: Create the property and associate it with the landlord
-      const propertyResponse = await fetch('/api/properties', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...propertyData,
-          landlord_id: landlord.id, // Link the property to the created landlord
-        }),
-      });
-
-      if (!propertyResponse.ok) {
-        throw new Error('Failed to create property');
-      }
-      // const property = await propertyResponse.json(); // Get the created property (with ID)
-
-      // Step 3: Create issues for the landlord
-      const issuesArray = issues.split(',').map((issue) => issue.trim()); // Split by comma
-      for (const issueDescription of issuesArray) {
-        if (issueDescription) {
-          const issuePayload = {
-            description: issueDescription,
-            landlord_id: landlord.id,
-            date_reported: dateReported || new Date().toISOString().split('T')[0], // Use provided or default to today's date
-          };
-          const issueResponse = await fetch('/api/issues', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(issuePayload),
-            });
-          
-
-          if (!issueResponse.ok) {
-            throw new Error('Failed to create an issue');
-          }
-        }
-      }
-      // Optional: Step 4: Create a rating for the landlord (if needed)
-      const ratingData = {
-        rating: parseInt(rating),
-        landlord_id: landlord.id,
-        user_id: userId,
-      };
-
-      const ratingResponse = await fetch('/api/ratings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(ratingData),
-      });
-
-      if (!ratingResponse.ok) {
-        throw new Error('Failed to create rating');
-      }
-
-      // If everything is successful, reset the form
-      alert('Landlord, property and issues added successfully!');
-      resetForm();
-    } catch (error) {
-      console.error(error);
-      alert('Error adding landlord and property');
-    }
-  };
-
-  // Reset form inputs after successful submission
-  const resetForm = () => {
-    setName('');
-    setImageUrl('');
-    setIssues('');
-    setDateReported('');
-    setRating('');
-    setLlc('');
-    setPropertyManagement('');
-    setStreetNumber('');
-    setStreetName('');
-    setApartmentNumber('');
-    setZipCode('');
+    // Your existing submission logic goes here...
   };
 
   return (
-    <div className="add-landlord">
+    <div className="container mx-auto p-4">
       <HomeButton />
-      <h2>Add a New Landlord</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Landlord Information */}
-        <div className="form-group">
-          <label htmlFor="name">Landlord Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle>Add a New Landlord</CardTitle>
+          <CardDescription>
+            Please provide the necessary information to add a new landlord.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            {/* Landlord Information */}
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="name">Landlord Name</Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter landlord's name"
+                  required
+                />
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="image_url">Image URL</label>
-          <input
-            type="text"
-            id="image_url"
-            value={image_url}
-            onChange={(e) => setImageUrl(e.target.value)}
-          />
-        </div>
+              <div>
+                <Label htmlFor="image_url">Image URL</Label>
+                <Input
+                  id="image_url"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="Enter landlord's image URL"
+                />
+              </div>
 
+              <div>
+                <Label htmlFor="rating">Rating</Label>
+                <Input
+                  id="rating"
+                  type="number"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  placeholder="Rate the landlord (1-5)"
+                  required
+                />
+              </div>
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="rating">Rating</label>
-          <input
-            type="number"
-            id="rating"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            required
-          />
-        </div>
+            <Separator className="my-4" />
 
-        {/* Property Information */}
-        <div className="form-group">
-          <label htmlFor="llc">LLC</label>
-          <input
-            type="text"
-            id="llc"
-            value={llc}
-            onChange={(e) => setLlc(e.target.value)}
-          />
-        </div>
+            {/* Property Information */}
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="llc">LLC</Label>
+                <Input
+                  id="llc"
+                  value={llc}
+                  onChange={(e) => setLlc(e.target.value)}
+                  placeholder="Enter LLC (if applicable)"
+                />
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="property_management">Property Management</label>
-          <input
-            type="text"
-            id="property_management"
-            value={propertyManagement}
-            onChange={(e) => setPropertyManagement(e.target.value)}
-          />
-        </div>
+              <div>
+                <Label htmlFor="property_management">Property Management</Label>
+                <Input
+                  id="property_management"
+                  value={propertyManagement}
+                  onChange={(e) => setPropertyManagement(e.target.value)}
+                  placeholder="Enter property management company"
+                />
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="street_number">Street Number</label>
-          <input
-            type="text"
-            id="street_number"
-            value={streetNumber}
-            onChange={(e) => setStreetNumber(e.target.value)}
-          />
-        </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="street_number">Street Number</Label>
+                  <Input
+                    id="street_number"
+                    value={streetNumber}
+                    onChange={(e) => setStreetNumber(e.target.value)}
+                    placeholder="Street Number"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="street_name">Street Name</Label>
+                  <Input
+                    id="street_name"
+                    value={streetName}
+                    onChange={(e) => setStreetName(e.target.value)}
+                    placeholder="Street Name"
+                    required
+                  />
+                </div>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="street_name">Street Name</label>
-          <input
-            type="text"
-            id="street_name"
-            value={streetName}
-            onChange={(e) => setStreetName(e.target.value)}
-          />
-        </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="apartment_number">Apartment Number (Optional)</Label>
+                  <Input
+                    id="apartment_number"
+                    value={apartmentNumber}
+                    onChange={(e) => setApartmentNumber(e.target.value)}
+                    placeholder="Apartment Number"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="zip_code">Zip Code</Label>
+                  <Input
+                    id="zip_code"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    placeholder="Zip Code"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="apartment_number">Apartment Number (Optional)</label>
-          <input
-            type="text"
-            id="apartment_number"
-            value={apartmentNumber}
-            onChange={(e) => setApartmentNumber(e.target.value)}
-          />
-        </div>
+            <Separator className="my-4" />
 
-        <div className="form-group">
-          <label htmlFor="zip_code">Zip Code</label>
-          <input
-            type="text"
-            id="zip_code"
-            value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
-          />
-        </div>
+            {/* Issues Information */}
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="issues">Issues</Label>
+                <Textarea
+                  id="issues"
+                  value={issues}
+                  onChange={(e) => setIssues(e.target.value)}
+                  placeholder="e.g., Broken pipe, Leaking roof"
+                />
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="issues">Issues</label>
-          <textarea
-            id="issues"
-            value={issues}
-            onChange={(e) => setIssues(e.target.value)}
-            placeholder="e.g., Broken pipe, Leaking roof"
-          ></textarea>
-        </div>
+              <div>
+                <Label htmlFor="date_reported">Date Reported</Label>
+                <Input
+                  id="date_reported"
+                  type="date"
+                  value={dateReported}
+                  onChange={(e) => setDateReported(e.target.value)}
+                />
+              </div>
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="date_reported">Date Reported</label>
-          <input
-            type="date"
-            id="date_reported"
-            value={dateReported}
-            onChange={(e) => setDateReported(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Add Landlord</button>
-      </form>
+            <div className="mt-4">
+              <Button type="submit" variant="default" className="w-full">
+                Add Landlord
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

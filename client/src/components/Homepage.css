@@ -1,0 +1,158 @@
+/* General page container */
+.container {
+    max-width: 1200px; /* Limit the width of the page */
+    margin: 0 auto; /* Center the container */
+    padding: 16px; /* Add padding */
+  }
+  
+  /* Section spacing */
+  .mb-8 {
+    margin-bottom: 32px; /* Spacing between sections */
+  }
+  
+  /* Heading styles */
+  .text-center {
+    text-align: center; /* Center text */
+  }
+  
+  .text-xl {
+    font-size: 1.25rem; /* Large text size */
+  }
+  
+  .font-semibold {
+    font-weight: 600; /* Semi-bold font */
+  }
+  
+  /* Carousel styles */
+  .carousel {
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center the entire carousel */
+    align-items: center; /* Center items vertically */
+    width: 100%; /* Full width */
+    overflow: hidden; /* Hide any overflow */
+    padding: 16px 0; /* Padding for visual spacing */
+  }
+  
+  .carousel .carousel-content {
+    display: flex; /* Flex layout for carousel content */
+    justify-content: center; /* Center all items horizontally */
+    align-items: center; /* Align items vertically */
+    gap: 16px; /* Space between items */
+  }
+  
+  /* Individual carousel items */
+  .carousel-item {
+    flex: 0 0 auto; /* Prevent shrinking or growing */
+    width: calc(100% / 3); /* Show three items per slide */
+    max-width: 300px; /* Limit the maximum width */
+    display: flex; /* Flex layout for inner alignment */
+    justify-content: center; /* Center the card horizontally */
+    align-items: center; /* Center the card vertically */
+    padding: 16px; /* Add spacing */
+  }
+  
+  @media (max-width: 768px) {
+    .carousel-item {
+      width: 100%; /* Show one item per slide on smaller screens */
+      padding: 8px; /* Adjust padding */
+    }
+  }
+  
+  /* LandlordCard styles */
+  .landlord-card {
+    width: 100%; /* Take full width of the parent */
+    max-width: 300px; /* Limit card's maximum width */
+    background: #fff; /* White background */
+    border: 1px solid #e5e7eb; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text inside the card */
+    padding: 16px; /* Inner padding */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    cursor: pointer; /* Pointer cursor for interactivity */
+  }
+  
+  .landlord-card:hover {
+    transform: translateY(-4px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+  
+  .landlord-card img {
+    width: 100%; /* Responsive image width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Match card corners */
+    margin-bottom: 8px; /* Space below the image */
+  }
+  
+  .landlord-card h3 {
+    font-size: 1rem; /* Standard heading size */
+    font-weight: 500; /* Medium weight */
+    color: #1f2937; /* Dark text */
+    margin-bottom: 8px; /* Space below heading */
+  }
+  
+  .landlord-card p {
+    font-size: 0.875rem; /* Small text size */
+    color: #6b7280; /* Gray text */
+  }
+  
+  /* Buttons */
+  .flex {
+    display: flex; /* Flexbox layout */
+  }
+  
+  .gap-4 {
+    gap: 16px; /* Space between buttons */
+  }
+  
+  .justify-center {
+    justify-content: center; /* Center buttons horizontally */
+  }
+  
+  button {
+    background: #2563eb; /* Blue background */
+    color: #fff; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 16px; /* Padding for buttons */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 1rem; /* Standard font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background 0.3s ease; /* Smooth hover effect */
+  }
+  
+  button:hover {
+    background: #1d4ed8; /* Darker blue on hover */
+  }
+  
+  /* Skeleton (loading state) */
+  .skeleton {
+    background: #f3f4f6; /* Light gray background */
+    border-radius: 4px; /* Slightly rounded corners */
+    animation: shimmer 1.5s infinite; /* Shimmer effect */
+  }
+  
+  .skeleton.h-6 {
+    height: 24px; /* Height for text skeleton */
+  }
+  
+  .skeleton.w-32 {
+    width: 128px; /* Width for text skeleton */
+  }
+  
+  .skeleton.h-40 {
+    height: 160px; /* Height for card skeleton */
+  }
+  
+  .skeleton.w-full {
+    width: 100%; /* Full width skeleton */
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: 200px 0;
+    }
+  }
+  
