@@ -9,10 +9,20 @@ from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
 import re, datetime
 from datetime import date 
+from openai import OpenAI
 import openai 
+import os
 # Local imports
 from config import app, db
 from models import db, User, Landlord, Rating, Lease, Property , Issue
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
+
+client = OpenAI(
+    api_key = os.environ.get('OPEN_AI_KEY')
+)
+
 # Add your model imports
 
 @app.route('/')
@@ -37,7 +47,7 @@ def create_user():
         db.session.commit()
         session["user_id"] = new_user.id  
         return new_user.to_dict(rules=("-password_hash",)), 201
-    
+
     except IntegrityError as e:
         db.session.rollback()  # Rollback the session in case of error
         # Handle duplicate email or phone errors
@@ -48,7 +58,7 @@ def create_user():
     except BadRequest as e:
         # Handle invalid JSON or malformed requests
         return {'error': 'Bad request. Please check your input.'}, 400
-    
+
     except Exception as e:
         return { 'error': str(e) }, 400
 
@@ -60,7 +70,7 @@ def check_session():
         return user.to_dict(), 200
     else:
         return {}, 204
-    
+
 @app.post('/api/login')
 def login():
     data = request.json 
@@ -71,7 +81,7 @@ def login():
         return user.to_dict(), 202
     else: 
         return {"error": "invalid username or password"}, 401
-    
+
 @app.delete('/api/logout')
 def logout():
     session.pop('user_id')
@@ -82,7 +92,7 @@ def get_landlords():
     try:
         # Query all landlords from the database
         landlords = Landlord.query.all()
-        
+
         # Prepare a list of landlords
         landlord_list = [{
             "id": l.id, 
@@ -100,16 +110,16 @@ def get_landlords():
 @app.route('/api/landlords', methods=['POST'])
 def create_landlord():
     data = request.get_json()
-    
+
     # Validate data (basic checks for required fields)
     if not data.get('name'):
         return jsonify({'error': 'Missing required fields'}), 400
-    
+
     user_id = data.get('user_id')
-    
+
     if not user_id:
         return jsonify({'error': 'User ID is required'}), 400
-    
+
     try:
         # Create the landlord
         new_landlord = Landlord(
@@ -135,7 +145,7 @@ def get_associated_landlords():
         ratings = Rating.query.filter_by(user_id=user_id).all()
         if not ratings:
             return jsonify({"message": "No ratings found for this user."}), 404
-        
+
         landlord_list = [{
             "id": rating.landlord.id if rating.landlord else None,
             "name": rating.landlord.name if rating.landlord else "Unknown",
@@ -144,12 +154,12 @@ def get_associated_landlords():
             "issues": [issue.to_dict() for issue in rating.landlord.issues] if rating.landlord and rating.landlord.issues else [],
             "image_url": rating.landlord.image_url if rating.landlord else None
         } for rating in ratings]
-        
+
         return jsonify(landlord_list), 200
 
     except Exception as e:
         return jsonify({"message": f"Error fetching associated landlords: {str(e)}"}), 500
-    
+
 @app.route('/api/landlords/<int:id>', methods=['GET'])
 def get_landlord(id):
     try:
@@ -211,7 +221,7 @@ def get_issues_for_landlord(landlord_id):
 @app.route('/api/properties', methods=['POST'])
 def create_property():
     data = request.get_json()
-    
+
     # Validate the property data
     if not data.get('street_number') or not data.get('street_name') or not data.get('zip_code'):
         return jsonify({'error': 'Missing required property fields'}), 400
@@ -226,7 +236,7 @@ def create_property():
         zip_code=data['zip_code'],
         landlord_id=data['landlord_id'],  # Ensure landlord_id is sent from frontend
     )
-    
+
     # Add to the database
     db.session.add(new_property)
     db.session.commit()
@@ -235,7 +245,7 @@ def create_property():
 @app.route('/api/ratings', methods=['POST'])
 def create_rating():
     data = request.get_json()
-    
+
     # Validate the rating data
     if not data.get('rating') or not data.get('landlord_id'):
         return jsonify({'error': 'Missing required fields'}), 400
@@ -246,7 +256,7 @@ def create_rating():
         landlord_id=data.get('landlord_id'),
         user_id=data.get('user_id'),  # Ensure user_id is sent from frontend, default to None if not provided by the user.
     )
-    
+
     # Add to the database
     db.session.add(new_rating)
     db.session.commit()
@@ -255,30 +265,35 @@ def create_rating():
 
 
 ##open ai 
-@app.route('/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST'])
 def chat():
     data = request.json
     user_message = data.get("message")
+    print(f"Received message: {user_message}")  # Log input
 
     if not user_message.strip():
         return jsonify({"error": "Message cannot be empty"}), 400
     if len(user_message) > 1000:
         return jsonify({"error": "Message exceeds maximum length"}), 400
 
-    
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are an assistant for tenant-landlord disputes."},
-                {"role": "user", "content": user_message},
-            ]
+        # Updated OpenAI API call
+        response = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": "You are an assistant for tenant-landlord disputes."},
+            {"role": "user", "content": user_message},
+        ],
+        model="gpt-3.5-turbo",
         )
-        reply = response['choices'][0]['message']['content']
+        print(f"OpenAI response: {response}")  # Log API response
+
+        reply = response.choices[0].message.content
         return jsonify({"reply": reply})
-    except openai.error.OpenAIError as e:
+    except openai.OpenAIError as e:
+        print(f"OpenAI error: {e}") 
         return jsonify({"error": f"OpenAI API error: {str(e)}"}), 500
     except Exception as e:
+        print(f"Unexpected error: {e}")  # Log unexpected errors
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
 
 

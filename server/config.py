@@ -21,8 +21,9 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# openai.api_key = os.environ.get('OPEN_AI_KEY')
 app.json.compact = False
-openai.api_key = os.environ.get('OPEN_AI_KEY')
+
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
