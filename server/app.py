@@ -267,27 +267,49 @@ def create_rating():
 ##open ai 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    initial_message = {
+        "role": "system",
+        "content": (
+            "You are a helpful assistant for tenant-landlord disputes. "
+            "You can provide advice on topics like rent disputes, repairs, lease agreements, or evictions."
+        ),
+    }
     data = request.json
     user_message = data.get("message")
-    print(f"Received message: {user_message}")  # Log input
 
     if not user_message.strip():
         return jsonify({"error": "Message cannot be empty"}), 400
     if len(user_message) > 1000:
         return jsonify({"error": "Message exceeds maximum length"}), 400
-
+      # Initialize or retrieve the session's chat history
+    chat_history = session.get("chat_history", [])
+    
+    if not isinstance(chat_history, list):
+        chat_history = []
+        
+    # Add the user's message to the chat history
+    chat_history.append({"role": "user", "content": user_message})
+    
+    # Manage the session size (limit to the last 10 messages)
+    max_history_length = 10
+    chat_history = chat_history[-max_history_length:]  # Keep only the last 10 messages
+    
     try:
         # Updated OpenAI API call
         response = client.chat.completions.create(
         messages=[
-            {"role": "system", "content": "You are an assistant for tenant-landlord disputes."},
-            {"role": "user", "content": user_message},
-        ],
+            initial_message
+            ]+ chat_history,
         model="gpt-3.5-turbo",
+        temperature= 0.7,
         )
-        print(f"OpenAI response: {response}")  # Log API response
 
         reply = response.choices[0].message.content
+        chat_history.append({"role": "assistant", "content": reply})
+        
+        session["chat_history"] = chat_history
+        
+        
         return jsonify({"reply": reply})
     except openai.OpenAIError as e:
         print(f"OpenAI error: {e}") 
@@ -296,6 +318,11 @@ def chat():
         print(f"Unexpected error: {e}")  # Log unexpected errors
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
 
+@app.route('/api/clear_chat', methods=['POST'])
+def clear_chat():
+    # Remove chat history from the session
+    session.pop("chat_history", None)
+    return jsonify({"message": "Chat history cleared."}), 200
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

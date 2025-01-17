@@ -101,14 +101,14 @@ const UserDashboard = () => {
           <p className="empty-message">No landlords associated with your account.</p>
         )}
       </div>
-
       <div className="action-buttons">
         <Button onClick={() => navigate('/addlandlord')}>Add Landlord</Button>
         <Button onClick={() => navigate('/search')}>Search Landlords</Button>
+        <ChatBotButton /> 
         <Button className="logout-button" onClick={handleLogout}>
           Logout
         </Button>
-        <ChatBotButton />
+        
       </div>
     </div>
   );

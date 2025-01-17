@@ -5,13 +5,11 @@ To Do
     --------------------------------------------------------
 Styling
 seed some good data for presentation (first finalize backend)
-add Ai advice component
 figure out how to host the website 
 Make it so after signup redirected to login page
     --------------------------------------------------------
     Back End
     --------------------------------------------------------
-add issues model, and crud
 
 
 
@@ -20,6 +18,8 @@ add issues model, and crud
 ------------
 Done
 ------------
+add Ai advice component
+add issues model, and crud
 -alter front end to handle adding issues and fixing the front end crud
 -figure out how to get images hosted
 -Validates 
