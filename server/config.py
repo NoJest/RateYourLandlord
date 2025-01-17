@@ -10,7 +10,7 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 import os
-
+import openai 
 # Local imports
 
 #loads the .env into our virtual environment
@@ -22,6 +22,7 @@ app.secret_key = os.environ.get('FLASK_SECRET')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
+openai.api_key = os.environ.get('OPEN_AI_KEY')
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={

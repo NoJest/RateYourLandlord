@@ -9,7 +9,7 @@ from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
 import re, datetime
 from datetime import date 
-
+import openai 
 # Local imports
 from config import app, db
 from models import db, User, Landlord, Rating, Lease, Property , Issue
@@ -252,6 +252,34 @@ def create_rating():
     db.session.commit()
 
     return jsonify(new_rating.to_dict()), 201  # Send back the created rating as a response
+
+
+##open ai 
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.json
+    user_message = data.get("message")
+
+    if not user_message.strip():
+        return jsonify({"error": "Message cannot be empty"}), 400
+    if len(user_message) > 1000:
+        return jsonify({"error": "Message exceeds maximum length"}), 400
+
+    
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are an assistant for tenant-landlord disputes."},
+                {"role": "user", "content": user_message},
+            ]
+        )
+        reply = response['choices'][0]['message']['content']
+        return jsonify({"reply": reply})
+    except openai.error.OpenAIError as e:
+        return jsonify({"error": f"OpenAI API error: {str(e)}"}), 500
+    except Exception as e:
+        return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
