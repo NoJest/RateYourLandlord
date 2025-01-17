@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import LandlordCard from './LandlordCard';
 import './UserDashboard.css' 
+import ChatBotButton from './Buttons/ChatBotButton';
 const UserDashboard = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [associatedLandlords, setAssociatedLandlords] = useState([]);
@@ -107,6 +108,7 @@ const UserDashboard = () => {
         <Button className="logout-button" onClick={handleLogout}>
           Logout
         </Button>
+        <ChatBotButton />
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import PropertyCard from './PropertyCard';
 import AddPropertyButton from './Buttons/AddPropertyButton';
 import AddRatingButton from './Buttons/AddRatingButton';
 import AddIssueButton from './Buttons/AddIssueButton';
+import ChatBotButton from './Buttons/ChatBotButton';
 
 const defaultImageUrl = 'https://t3.ftcdn.net/jpg/08/57/80/96/360_F_857809650_hY4uYlIKOSKu8hela7K2sj4KPbILsNl5.jpg';
 
@@ -133,6 +134,7 @@ const LandlordPage = () => {
         <AddPropertyButton landlordId={id} />
         <AddRatingButton landlordId={id} />
         <AddIssueButton landlordId={id} />
+        <ChatBotButton />
       </div>
     </div>
   );

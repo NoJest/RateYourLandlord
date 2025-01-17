@@ -10,6 +10,8 @@ import LandlordPage from './components/LandlordPage'
 import AddProperty from './components/AddProperty'
 import AddRating from './components/AddRating'
 import AddIssue from './components/AddIssue'
+import ChatBot from './components/ChatBot/ChatComponent'
+
 const routes = [
     {path: '/', element: <App />, 
         children: [ 
@@ -23,6 +25,7 @@ const routes = [
             { path: 'AddProperty/:id', element: <AddProperty /> },
             { path: 'AddRating/:id', element: <AddRating /> },
             { path: 'AddIssue/:id', element: <AddIssue /> },
+            { path: 'ChatBot', element: <ChatBot/> },
         ] 
     },
 ]

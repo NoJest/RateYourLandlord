@@ -101,6 +101,7 @@ function Homepage() {
             Sign Up
           </Button>
         </Link>
+        <ChatBotButton variant="default" aria-label="Chat with a digital assistant" />
       </div>
     </div>
   );
