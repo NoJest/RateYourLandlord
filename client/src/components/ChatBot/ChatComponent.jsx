@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import HomeButton from '../Buttons/HomeButton'
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -31,6 +31,8 @@ const ChatBot = () => {
   };
 
   return (
+  <>
+  <HomeButton></HomeButton>
     <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
       <div
         style={{
@@ -88,6 +90,7 @@ const ChatBot = () => {
         Send
       </button>
     </div>
+  </>
   );
 };
 
