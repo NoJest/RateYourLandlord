@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import HomePageButton from '../Buttons/HomePageButton';
 
 const Signup = () => {
   const { setCurrentUser } = useContext(UserContext); // Access UserContext
@@ -68,7 +69,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <> 
+    <HomePageButton />
+    <div className="flex justify-center items-center bg-gray-100">
       <Card className="w-full max-w-md p-6 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center text-lg">Sign Up</CardTitle>
@@ -137,6 +140,7 @@ const Signup = () => {
         </CardContent>
       </Card>
     </div>
+    </>
   );
 };
 

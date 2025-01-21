@@ -1,158 +1,162 @@
 /* General page container */
 .container {
-    max-width: 1200px; /* Limit the width of the page */
-    margin: 0 auto; /* Center the container */
-    padding: 16px; /* Add padding */
-  }
-  
-  /* Section spacing */
-  .mb-8 {
-    margin-bottom: 32px; /* Spacing between sections */
-  }
-  
-  /* Heading styles */
-  .text-center {
-    text-align: center; /* Center text */
-  }
-  
-  .text-xl {
-    font-size: 1.25rem; /* Large text size */
-  }
-  
-  .font-semibold {
-    font-weight: 600; /* Semi-bold font */
-  }
-  
-  /* Carousel styles */
-  .carousel {
-    display: flex; /* Flexbox layout */
-    justify-content: center; /* Center the entire carousel */
-    align-items: center; /* Center items vertically */
-    width: 100%; /* Full width */
-    overflow: hidden; /* Hide any overflow */
-    padding: 16px 0; /* Padding for visual spacing */
-  }
-  
-  .carousel .carousel-content {
-    display: flex; /* Flex layout for carousel content */
-    justify-content: center; /* Center all items horizontally */
-    align-items: center; /* Align items vertically */
-    gap: 16px; /* Space between items */
-  }
-  
-  /* Individual carousel items */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #f9f9f9; /* Light gray background */
+  font-family: 'Inter', sans-serif; /* Modern sans-serif font */
+}
+
+/* Section spacing */
+.mb-8 {
+  margin-bottom: 32px;
+}
+
+/* Heading styles */
+.text-center {
+  text-align: center;
+}
+
+.text-xl {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333; /* Dark gray for readability */
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Carousel styles */
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 16px 0;
+}
+
+.carousel .carousel-content {
+  display: flex;
+  gap: 24px; /* Larger gap for modern spacing */
+  scroll-snap-type: x mandatory; /* Smooth scrolling behavior */
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: calc(100% / 4); /* Show four items per slide */
+  max-width: 250px; /* Limit the card width */
+  text-align: center; /* Center card content */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05); /* Slight scale effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+}
+
+@media (max-width: 768px) {
   .carousel-item {
-    flex: 0 0 auto; /* Prevent shrinking or growing */
-    width: calc(100% / 3); /* Show three items per slide */
-    max-width: 300px; /* Limit the maximum width */
-    display: flex; /* Flex layout for inner alignment */
-    justify-content: center; /* Center the card horizontally */
-    align-items: center; /* Center the card vertically */
-    padding: 16px; /* Add spacing */
+    width: 100%; /* Show one item per slide on smaller screens */
   }
-  
-  @media (max-width: 768px) {
-    .carousel-item {
-      width: 100%; /* Show one item per slide on smaller screens */
-      padding: 8px; /* Adjust padding */
-    }
+}
+
+/* LandlordCard styles */
+.landlord-card {
+  background: #fff; /* White card */
+  border: 1px solid #e5e7eb; /* Light border */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.landlord-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.landlord-card img {
+  width: 80px; /* Smaller profile image */
+  height: 80px;
+  border-radius: 50%; /* Circular image */
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.landlord-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937; /* Dark text */
+  margin-bottom: 8px;
+}
+
+.landlord-card p {
+  font-size: 0.9rem;
+  color: #6b7280; /* Subtle gray */
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+button {
+  background: #10b981; /* Vibrant green */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #059669; /* Darker green on hover */
+}
+
+/* Secondary buttons */
+button.secondary {
+  background: #3b82f6; /* Blue button */
+}
+
+button.secondary:hover {
+  background: #2563eb;
+}
+
+/* Skeleton (loading state) */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  ); /* Shimmer effect */
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+.skeleton.h-6 {
+  height: 24px;
+}
+
+.skeleton.w-32 {
+  width: 128px;
+}
+
+.skeleton.h-40 {
+  height: 160px;
+}
+
+.skeleton.w-full {
+  width: 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
   }
-  
-  /* LandlordCard styles */
-  .landlord-card {
-    width: 100%; /* Take full width of the parent */
-    max-width: 300px; /* Limit card's maximum width */
-    background: #fff; /* White background */
-    border: 1px solid #e5e7eb; /* Light border */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-align: center; /* Center text inside the card */
-    padding: 16px; /* Inner padding */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-    cursor: pointer; /* Pointer cursor for interactivity */
+  100% {
+    background-position: 200px 0;
   }
-  
-  .landlord-card:hover {
-    transform: translateY(-4px); /* Slight lift effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-  }
-  
-  .landlord-card img {
-    width: 100%; /* Responsive image width */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 8px; /* Match card corners */
-    margin-bottom: 8px; /* Space below the image */
-  }
-  
-  .landlord-card h3 {
-    font-size: 1rem; /* Standard heading size */
-    font-weight: 500; /* Medium weight */
-    color: #1f2937; /* Dark text */
-    margin-bottom: 8px; /* Space below heading */
-  }
-  
-  .landlord-card p {
-    font-size: 0.875rem; /* Small text size */
-    color: #6b7280; /* Gray text */
-  }
-  
-  /* Buttons */
-  .flex {
-    display: flex; /* Flexbox layout */
-  }
-  
-  .gap-4 {
-    gap: 16px; /* Space between buttons */
-  }
-  
-  .justify-center {
-    justify-content: center; /* Center buttons horizontally */
-  }
-  
-  button {
-    background: #2563eb; /* Blue background */
-    color: #fff; /* White text */
-    border: none; /* Remove border */
-    padding: 10px 16px; /* Padding for buttons */
-    border-radius: 6px; /* Rounded corners */
-    font-size: 1rem; /* Standard font size */
-    cursor: pointer; /* Pointer cursor */
-    transition: background 0.3s ease; /* Smooth hover effect */
-  }
-  
-  button:hover {
-    background: #1d4ed8; /* Darker blue on hover */
-  }
-  
-  /* Skeleton (loading state) */
-  .skeleton {
-    background: #f3f4f6; /* Light gray background */
-    border-radius: 4px; /* Slightly rounded corners */
-    animation: shimmer 1.5s infinite; /* Shimmer effect */
-  }
-  
-  .skeleton.h-6 {
-    height: 24px; /* Height for text skeleton */
-  }
-  
-  .skeleton.w-32 {
-    width: 128px; /* Width for text skeleton */
-  }
-  
-  .skeleton.h-40 {
-    height: 160px; /* Height for card skeleton */
-  }
-  
-  .skeleton.w-full {
-    width: 100%; /* Full width skeleton */
-  }
-  
-  @keyframes shimmer {
-    0% {
-      background-position: -200px 0;
-    }
-    100% {
-      background-position: 200px 0;
-    }
-  }
-  
+}

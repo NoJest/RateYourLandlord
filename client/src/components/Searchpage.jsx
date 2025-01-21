@@ -75,6 +75,9 @@ const Searchpage = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <div className="mt-8 text-center">
+        <HomeButton />
+      </div>
       <h2 className="text-2xl font-semibold mb-6 text-center">Landlords with the Worst Ratings</h2>
 
       {/* Carousel of landlords */}
@@ -130,10 +133,6 @@ const Searchpage = () => {
         <Button onClick={applyFilters} className="w-full sm:w-auto">
           Apply Filters
         </Button>
-      </div>
-
-      <div className="mt-8 text-center">
-        <HomeButton />
       </div>
     </div>
   );

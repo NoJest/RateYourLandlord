@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import { Button } from '@/components/ui/button'; // ShadCN Button
 import {
@@ -35,8 +36,114 @@ const AddLandlord = () => {
       return;
     }
 
-    // Your existing submission logic goes here...
+    try {
+      // Step 1: Create the landlord
+      const landlordResponse = await fetch('/api/landlords', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          image_url: imageUrl || null, // Allow empty image URLs
+          user_id: currentUser?.id, // Associate landlord with the current user
+        }),
+      });
+  
+      if (!landlordResponse.ok) {
+        throw new Error('Failed to create landlord');
+      }
+  
+      const landlordData = await landlordResponse.json();
+      const landlordId = landlordData.id; // Get the created landlord ID
+  
+      console.log('Landlord created:', landlordData);
+  
+      // Step 2: Create the property
+      const propertyResponse = await fetch('/api/properties', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          llc: llc || null,
+          property_management: propertyManagement || null,
+          street_number: streetNumber,
+          street_name: streetName,
+          apartment_number: apartmentNumber || null,
+          zip_code: zipCode,
+          landlord_id: landlordId,
+        }),
+      });
+  
+      if (!propertyResponse.ok) {
+        throw new Error('Failed to create property');
+      }
+  
+      const propertyData = await propertyResponse.json();
+      console.log('Property created:', propertyData);
+  
+      // Step 3: Create an issue (if provided)
+      if (issues.trim()) {
+        const issueResponse = await fetch('/api/issues', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            description: issues,
+            landlord_id: landlordId,
+          }),
+        });
+  
+        if (!issueResponse.ok) {
+          throw new Error('Failed to create issue');
+        }
+  
+        const issueData = await issueResponse.json();
+        console.log('Issue created:', issueData);
+      }
+  
+      // Step 4: Create a rating
+      const ratingResponse = await fetch('/api/ratings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating: parseInt(rating, 10),
+          landlord_id: landlordId,
+          user_id: currentUser?.id,
+        }),
+      });
+  
+      if (!ratingResponse.ok) {
+        throw new Error('Failed to create rating');
+      }
+  
+      const ratingData = await ratingResponse.json();
+      console.log('Rating created:', ratingData);
+  
+      // Clear the form and show success message
+      alert('Landlord added successfully!');
+      setName('');
+      setImageUrl('');
+      setIssues('');
+      setDateReported('');
+      setRating('');
+      setLlc('');
+      setPropertyManagement('');
+      setStreetNumber('');
+      setStreetName('');
+      setApartmentNumber('');
+      setZipCode('');
+      navigate('/dashboard'); // Navigate to /dashboard
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while adding the landlord. Please try again.');
+    }
   };
+  
 
   return (
     <div className="container mx-auto p-4">

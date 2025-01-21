@@ -35,27 +35,52 @@
   margin-top: 16px;
 }
 
-/* Carousel styling */
 .carousel {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  position: relative;
+  overflow: hidden; /* Hide any overflow content */
 }
 
 .carousel-content {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  gap: 16px; /* Adjust gap between cards */
+  overflow-x: scroll; /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Snap scrolling for smooth alignment */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
 
 .carousel-item {
-  flex: 0 0 auto;
-  max-width: 250px;
-  text-align: center;
-  transition: transform 0.3s ease;
+  flex: 0 0 auto; /* Prevent items from resizing */
+  scroll-snap-align: center; /* Snap to the center of the viewport */
+  width: 100%; /* Ensure cards take up full width */
+  max-width: 300px; /* Adjust max width of cards */
 }
+
+.carousel-previous,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.carousel-previous {
+  left: 8px;
+}
+
+.carousel-next {
+  right: 8px;
+}
+
 
 .carousel-item:hover {
   transform: scale(1.05);

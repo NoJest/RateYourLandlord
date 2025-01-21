@@ -57,11 +57,11 @@ function App() {
   return (
     
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-      <div className="App">
+      <div className="App moving-bg">
         {/* If there is no currentUser, show the homepage, otherwise show the dashboard */}
         {!currentUser ? (
           <>
-            <Homepage />
+            {/* <Homepage /> */}
             <Outlet /> 
             {/* // Render nested routes for non-logged-in users */}
           </>

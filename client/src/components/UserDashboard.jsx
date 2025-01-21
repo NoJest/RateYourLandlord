@@ -94,8 +94,8 @@ const UserDashboard = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            {/* <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10" />
+            <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10" /> */}
           </Carousel>
         ) : (
           <p className="empty-message">No landlords associated with your account.</p>

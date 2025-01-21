@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import HomePageButton from '../Buttons/HomePageButton';
 
 const Login = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext); // Access setCurrentUser from context
@@ -61,50 +62,54 @@ const Login = () => {
   }, []); // `setCurrentUser` is stable, so this runs once on mount
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <Card className="w-full max-w-md p-6 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center text-lg">Login</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="form-group">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={handleUsernameChange}
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder="Enter your password"
-                required
-              />
-            </div>
+    <>
+      <HomePageButton />
+      <div className="flex justify-center items-center bg-gray-100">
+        <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
+          <CardHeader>
+            <CardTitle className="text-center text-xl font-bold">Login</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="form-group">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  placeholder="Enter your username"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
 
-            {error && <div className="text-red-500 text-sm">{error}</div>}
+              {error && <div className="text-red-500 text-sm">{error}</div>}
 
-            <div className="form-group">
-              <Button type="submit" variant="default" className="w-full">
-                Login
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+              <div className="form-group">
+                <Button type="submit" variant="default" className="w-full">
+                  Login
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 };
 
 export default Login;
+

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button"; // ShadCN button
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"; // ShadCN card
 import { Skeleton } from "@/components/ui/skeleton"; // For loading state
+import ChatBotButton from './Buttons/ChatBotButton';
 import './Homepage.css';
 
 
@@ -79,8 +80,8 @@ function Homepage() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            {/* <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10" />
+            <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10" /> */}
           </Carousel>
         ) : (
           <p className="text-center text-gray-500">
@@ -101,7 +102,6 @@ function Homepage() {
             Sign Up
           </Button>
         </Link>
-        <ChatBotButton variant="default" aria-label="Chat with a digital assistant" />
       </div>
     </div>
   );
