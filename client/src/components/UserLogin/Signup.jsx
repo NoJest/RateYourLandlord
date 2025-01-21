@@ -69,9 +69,10 @@ const Signup = () => {
   };
 
   return (
-    <> 
-    <HomePageButton />
-    <div className="flex justify-center items-center bg-gray-100">
+    <div className="flex flex-col justify-center items-center bg-gray-100">
+      <div className="w-full max-w-md ">
+        <HomePageButton className="w-full" />
+      </div>
       <Card className="w-full max-w-md p-6 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center text-lg">Sign Up</CardTitle>
@@ -140,7 +141,6 @@ const Signup = () => {
         </CardContent>
       </Card>
     </div>
-    </>
   );
 };
 

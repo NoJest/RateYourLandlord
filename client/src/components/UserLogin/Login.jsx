@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import HomePageButton from '../Buttons/HomePageButton';
 
-
 const Login = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext); // Access setCurrentUser from context
   const [username, setUsername] = useState('');
@@ -64,59 +63,57 @@ const Login = () => {
   }, []); // `setCurrentUser` is stable, so this runs once on mount
 
   return (
-    <>
-      <div className="">
-        <HomePageButton className="w-full max-w-sm" />
+    <div className="flex flex-col justify-center items-center bg-gray-100 ">
+      <div className="w-full max-w-sm ">
+        <HomePageButton className="w-full" />
       </div>
-      <div className="flex justify-center items-center bg-gray-100">
-        <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
-          <CardHeader>
-            <CardTitle className="text-center text-xl font-bold">Login</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="form-group">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={username}
-                  onChange={handleUsernameChange}
-                  placeholder="Enter your username"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  placeholder="Enter your password"
-                  required
-                />
-              </div>
+      <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
+        <CardHeader>
+          <CardTitle className="text-center text-xl font-bold">Login</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="form-group">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={handleUsernameChange}
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
 
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+            {error && <div className="text-red-500 text-sm">{error}</div>}
 
-              <div className="form-group flex gap-4 mt-4">
-                <Button type="submit" variant="default" className="w-full">
-                  Login
+            <div className="form-group flex gap-4 mt-4">
+              <Button type="submit" variant="default" className="w-full">
+                Login
+              </Button>
+              <Link to="/signup" className="w-full">
+                <Button variant="default" className="w-full" aria-label="Create a new account">
+                  Sign Up
                 </Button>
-                <Link to="/signup" className="w-full">
-                  <Button variant="default" className="w-full" aria-label="Create a new account">
-                    Sign Up
-                  </Button>
-                </Link>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </>
+              </Link>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
