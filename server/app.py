@@ -99,7 +99,15 @@ def get_landlords():
             "name": l.name, 
             "rating": l.get_average_rating(),
             "rating_count": l.get_rating_count(),
-            "issues": [issue.to_dict() for issue in l.issues]  # Include issues
+            "issues": [issue.to_dict() for issue in l.issues],
+            "properties": [
+                {
+                    "street_number": prop.street_number,
+                    "street_name": prop.street_name,
+                    "apartment_number": prop.apartment_number,
+                    "zip_code": prop.zip_code
+                } for prop in l.properties
+            ]
         } for l in landlords]
         return jsonify(landlord_list), 200
     except Exception as e:

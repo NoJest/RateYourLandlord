@@ -58,13 +58,15 @@ const ChatBot = () => {
   };
 
   return (
-    <>
-      <HomeButton />
-      <Card className="max-w-md mx-auto p-4">
+    <div className="container mx-auto p-4">
+      <div className="mb-4">
+        <HomeButton className="w-full" />
+      </div>
+      <Card className="max-w-3xl mx-auto p-4">
         <CardHeader>
           <CardTitle className="text-center">Chat with Tenant-Landlord Assistant</CardTitle>
         </CardHeader>
-        <CardContent className="h-80">
+        <CardContent className="h-[600px]"> {/* Increase chatbox height */}
           <ScrollArea className="h-full">
             {messages.map((msg, index) => (
               <div
@@ -102,7 +104,7 @@ const ChatBot = () => {
           </Button>
         </CardFooter>
       </Card>
-    </>
+    </div>
   );
 };
 

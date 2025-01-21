@@ -82,7 +82,7 @@ const LandlordPage = () => {
 
       {/* Issues Carousel */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Issues</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported Issues({landlord.issues?.length || 0})</h3>
         {landlord.issues?.length > 0 ? (
           <Carousel className="w-full max-w-3xl mx-auto">
             <CarouselContent>
@@ -107,7 +107,7 @@ const LandlordPage = () => {
 
       {/* Property Carousel */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Properties</h3>
+        <h3 className="text-xl font-semibold mb-4">Properties({landlord.properties?.length || 0})</h3>
         {landlord.properties?.length > 0 ? (
           <Carousel className="w-full max-w-3xl mx-auto">
             <CarouselContent>

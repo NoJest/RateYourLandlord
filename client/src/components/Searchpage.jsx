@@ -29,7 +29,7 @@ const Searchpage = () => {
         const data = await response.json();
 
         // Sort landlords by rating and limit to the first 10
-        const sortedLandlords = data.sort((a, b) => a.rating - b.rating).slice(0, 10);
+        const sortedLandlords = data.sort((a, b) => a.rating - b.rating);
         setLandlords(sortedLandlords);
         setFilteredLandlords(sortedLandlords);
       } catch (err) {
@@ -52,23 +52,30 @@ const Searchpage = () => {
     }
     if (streetNameFilter) {
       filtered = filtered.filter((landlord) =>
-        landlord.property?.streetName?.toLowerCase().includes(streetNameFilter.toLowerCase())
+        landlord.properties.some((property) =>
+          property.street_name?.toLowerCase().includes(streetNameFilter.toLowerCase())
+        )
       );
     }
+  
     if (streetNumberFilter) {
       filtered = filtered.filter((landlord) =>
-        landlord.property?.streetNumber?.includes(streetNumberFilter)
+        landlord.properties.some((property) =>
+          String(property.street_number).includes(streetNumberFilter)
+        )
       );
     }
+  
     if (apartmentNumberFilter) {
       filtered = filtered.filter((landlord) =>
-        landlord.property?.apartmentNumber?.includes(apartmentNumberFilter)
+        landlord.properties.some((property) =>
+          String(property.apartment_number).includes(apartmentNumberFilter)
+        )
       );
     }
-
+  
     setFilteredLandlords(filtered);
   };
-
   if (loading) {
     return <div className="text-center">Loading...</div>;
   }
@@ -78,7 +85,7 @@ const Searchpage = () => {
       <div className="mt-8 text-center">
         <HomeButton />
       </div>
-      <h2 className="text-2xl font-semibold mb-6 text-center">Landlords with the Worst Ratings</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-center"> {`Landlords Found: ${filteredLandlords.length} out of ${landlords.length}`}</h2>
 
       {/* Carousel of landlords */}
       <div className="mb-8">

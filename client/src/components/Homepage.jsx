@@ -69,7 +69,7 @@ function Homepage() {
       {/* Carousel of ten worst landlords */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-center mb-4">
-          Landlords with the Lowest Ratings
+          The 10 Worste Rated Landlords
         </h2>
         {landlords.length > 0 ? (
           <Carousel className="carousel">
@@ -80,8 +80,6 @@ function Homepage() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10" />
-            <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10" /> */}
           </Carousel>
         ) : (
           <p className="text-center text-gray-500">

@@ -123,7 +123,7 @@ class Rating(db.Model, SerializerMixin):
     # -- validations -- ## 
     @validates('rating')
     def validate_rating(self, key, rating):
-        if rating <= 0 or rating >= 5:
+        if rating < 0 or rating > 5:
             raise ValueError("Rating must be between 0 and 5")
         return rating
 

@@ -89,7 +89,7 @@ const AddRating = () => {
               <Input
                 id="rating"
                 type="number"
-                min="1"
+                min="0"
                 max="5"
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}

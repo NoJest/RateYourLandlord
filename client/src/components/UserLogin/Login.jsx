@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App'; // Import UserContext
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from 'react-router-dom';
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import HomePageButton from '../Buttons/HomePageButton';
+
 
 const Login = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext); // Access setCurrentUser from context
@@ -63,7 +65,9 @@ const Login = () => {
 
   return (
     <>
-      <HomePageButton />
+      <div className="">
+        <HomePageButton className="w-full max-w-sm" />
+      </div>
       <div className="flex justify-center items-center bg-gray-100">
         <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
           <CardHeader>
@@ -98,10 +102,15 @@ const Login = () => {
 
               {error && <div className="text-red-500 text-sm">{error}</div>}
 
-              <div className="form-group">
+              <div className="form-group flex gap-4 mt-4">
                 <Button type="submit" variant="default" className="w-full">
                   Login
                 </Button>
+                <Link to="/signup" className="w-full">
+                  <Button variant="default" className="w-full" aria-label="Create a new account">
+                    Sign Up
+                  </Button>
+                </Link>
               </div>
             </form>
           </CardContent>

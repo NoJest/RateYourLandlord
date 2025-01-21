@@ -27,12 +27,18 @@ const AddLandlord = () => {
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [zipCode, setZipCode] = useState('');
   const { currentUser } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !rating || !streetNumber || !streetName || !zipCode) {
       alert('Name, rating, and address must be provided');
+      return;
+    }
+
+    const numericRating = parseFloat(rating);
+    if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
+      alert('Rating must be a number between 0 and 5');
       return;
     }
 
@@ -181,15 +187,24 @@ const AddLandlord = () => {
               </div>
 
               <div>
-                <Label htmlFor="rating">Rating</Label>
-                <Input
+              <Label htmlFor="rating">Rating</Label>
+                <select
                   id="rating"
-                  type="number"
                   value={rating}
                   onChange={(e) => setRating(e.target.value)}
-                  placeholder="Rate the landlord (1-5)"
+                  className="w-full border border-gray-300 rounded-md p-2"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Select a rating
+                  </option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+
               </div>
             </div>
 
