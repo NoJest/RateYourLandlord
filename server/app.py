@@ -9,8 +9,8 @@ from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
 import re, datetime
 from datetime import date 
-from openai import OpenAI
 import openai 
+from openai import OpenAI
 import os
 # Local imports
 from config import app, db
