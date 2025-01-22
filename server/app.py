@@ -4,7 +4,6 @@
 
 # Remote library imports
 from flask import request, session, jsonify, render_template
-from flask_restful import Resource
 from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
 import re, datetime

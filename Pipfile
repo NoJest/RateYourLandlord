@@ -18,6 +18,7 @@ psycopg2-binary = "*"
 openai = "*"
 flask-session = "*"
 flask-bcrypt = "*"
+python-dotenv = "*"
 
 [requires]
 python_full_version = "3.8.13"
