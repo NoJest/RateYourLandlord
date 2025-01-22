@@ -16,6 +16,7 @@ flask = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 openai = "*"
+flask-session = "*"
 
 [requires]
 python_full_version = "3.8.13"
