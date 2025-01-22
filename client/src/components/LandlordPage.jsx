@@ -66,7 +66,7 @@ const LandlordPage = () => {
           <CardTitle>{landlord.name}</CardTitle>
           <CardDescription>
             {landlord.average_rating
-              ? `Average Rating: ${landlord.average_rating} (${landlord.rating_count})`
+              ? `Average Rating: ${landlord.average_rating} (${landlord.rating_count} ${landlord.rating_count === 1 ? 'review' : 'reviews'})`
               : 'No ratings available'}
           </CardDescription>
         </CardHeader>
@@ -82,7 +82,7 @@ const LandlordPage = () => {
 
       {/* Issues Carousel */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Reported Issues({landlord.issues?.length || 0})</h3>
+        <h3 className="text-xl font-semibold mb-4">Reported {landlord.issues?.length === 1 ? 'Issue' : 'Issues'}({landlord.issues?.length || 0})</h3>
         {landlord.issues?.length > 0 ? (
           <Carousel className="w-full max-w-3xl mx-auto">
             <CarouselContent>
@@ -107,7 +107,7 @@ const LandlordPage = () => {
 
       {/* Property Carousel */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Properties({landlord.properties?.length || 0})</h3>
+        <h3 className="text-xl font-semibold mb-4">{landlord.properties?.length === 1 ? 'Property' : 'Properties'}({landlord.properties?.length || 0})</h3>
         {landlord.properties?.length > 0 ? (
           <Carousel className="w-full max-w-3xl mx-auto">
             <CarouselContent>

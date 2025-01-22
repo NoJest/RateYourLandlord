@@ -18,9 +18,13 @@ import openai
 load_dotenv() 
 
 # Instantiate app, set attributes
-app = Flask(__name__)
+app = Flask(__name__,
+    static_url_path='',
+    static_folder='../client/dist',
+    template_folder='../client/dist')
 app.secret_key = os.environ.get('FLASK_SECRET')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('POSTGRES_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_TYPE'] = 'filesystem' 
 

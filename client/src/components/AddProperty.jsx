@@ -126,13 +126,13 @@ const AddProperty = () => {
             </div>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1" htmlFor="llc">
-                LLC (Optional)
+                Corporation (Optional)
               </label>
               <Input
                 id="llc"
                 value={llc}
                 onChange={(e) => setLlc(e.target.value)}
-                placeholder="Enter LLC"
+                placeholder="Enter Corporation"
               />
             </div>
             <div className="mb-4">

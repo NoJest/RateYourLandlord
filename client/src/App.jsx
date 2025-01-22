@@ -57,7 +57,9 @@ function App() {
   return (
     
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <>
       <div className="App moving-bg">
+      <h3 className="RYL">RYL</h3>
         {/* If there is no currentUser, show the homepage, otherwise show the dashboard */}
         {!currentUser ? (
           <>
@@ -72,6 +74,7 @@ function App() {
           </>
         )}
       </div>
+      </>
     </UserContext.Provider>
   );
 }

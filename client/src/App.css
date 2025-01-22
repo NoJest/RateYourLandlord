@@ -80,6 +80,13 @@
   background-repeat: no-repeat;
   animation: moveBackground 30s linear infinite;
 }
+.RYL {
+  color: #996633; /* A poop-like brown color */
+  font-size: 3rem; /* Adjust font size */
+  margin: 10px 0; /* Add space around the text */
+  font-family: 'Papyrus', sans-serif; /* Example of a unique font */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optional shadow for effect */
+}
 
 /* Keyframes for background animation */
 @keyframes moveBackground {

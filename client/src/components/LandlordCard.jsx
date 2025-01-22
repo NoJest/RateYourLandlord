@@ -26,14 +26,16 @@ const LandlordCard = ({ landlord }) => {
         <CardTitle className="text-lg font-semibold">{landlord.name}</CardTitle>
         <CardDescription>
           <span className="text-gray-600">Rating: {landlord.rating}</span> (
-          <span className="text-sm text-gray-500">{landlord.rating_count} reviews</span>)
+            <span className="text-sm text-gray-500">
+            {landlord.rating_count} {landlord.rating_count === 1 ? 'review' : 'reviews'}
+          </span>)
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center items-center">
         <img
           src={landlord.image_url || defaultImageUrl}
           alt={landlord.name}
-          className="w-full max-h-48 object-cover rounded-md"
+          className="w-40 h-40 object-cover rounded-md"
         />
       </CardContent>
       <CardFooter className="flex justify-between items-center">

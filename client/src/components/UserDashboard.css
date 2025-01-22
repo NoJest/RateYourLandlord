@@ -23,7 +23,7 @@
 .carousel-title {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   color: #1f2937; /* Dark gray */
 }
 
@@ -38,7 +38,8 @@
 .carousel {
   display: flex;
   position: relative;
-  overflow: hidden; /* Hide any overflow content */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Hide vertical overflow */
 }
 
 .carousel-content {
@@ -46,7 +47,7 @@
   gap: 16px; /* Adjust gap between cards */
   overflow-x: scroll; /* Enable horizontal scrolling */
   scroll-snap-type: x mandatory; /* Snap scrolling for smooth alignment */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  -webkit-overflow-scrolling: touch; 
 }
 
 .carousel-item {

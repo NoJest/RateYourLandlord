@@ -37,7 +37,7 @@ const AddLandlord = () => {
     }
 
     const numericRating = parseFloat(rating);
-    if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
+    if (isNaN(numericRating) || numericRating < 0 || numericRating > 6) {
       alert('Rating must be a number between 0 and 5');
       return;
     }
@@ -213,12 +213,12 @@ const AddLandlord = () => {
             {/* Property Information */}
             <div className="space-y-4">
               <div>
-                <Label htmlFor="llc">LLC</Label>
+                <Label htmlFor="llc">Corporation</Label>
                 <Input
                   id="llc"
                   value={llc}
                   onChange={(e) => setLlc(e.target.value)}
-                  placeholder="Enter LLC (if applicable)"
+                  placeholder="Enter Corporation (if applicable)"
                 />
               </div>
 

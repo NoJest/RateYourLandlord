@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session, jsonify
+from flask import request, session, jsonify, render_template
 from flask_restful import Resource
 from werkzeug.exceptions import BadRequest
 from sqlalchemy.exc import IntegrityError
@@ -24,10 +24,13 @@ client = OpenAI(
 )
 
 # Add your model imports
-
 @app.route('/')
-def index():
-    return '<h1>RATE YO LORD PEASANT!</h1>'
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
+# @app.route('/')
+# def index():
+#     return '<h1>RATE YO LORD PEASANT!</h1>'
 
 #authentication and user login
 @app.post('/api/users')
@@ -100,6 +103,7 @@ def get_landlords():
             "rating": l.get_average_rating(),
             "rating_count": l.get_rating_count(),
             "issues": [issue.to_dict() for issue in l.issues],
+            "image_url": l.image_url,  # Ensure image_url is included
             "properties": [
                 {
                     "street_number": prop.street_number,

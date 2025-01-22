@@ -83,8 +83,8 @@ const UserDashboard = () => {
     <div className="container">
       <h2 className="dashboard-welcome">Welcome, {currentUser.username}</h2>
 
-      <div className="carousel-section">
-        <h3 className="carousel-title">Landlords</h3>
+      <div className="carousel-section text-center mb-8">
+        <h3 className="carousel-title"> Your Landlords</h3>
         {associatedLandlords.length > 0 ? (
           <Carousel className="carousel">
             <CarouselContent className="carousel-content">

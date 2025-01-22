@@ -23,7 +23,7 @@ function Homepage() {
   useEffect(() => {
     const fetchLandlords = async () => {
       try {
-        const response = await fetch('/api/landlords'); // Replace with your backend API
+        const response = await fetch('/api/landlords'); 
         if (!response.ok) {
           throw new Error('Failed to fetch landlords');
         }
@@ -69,7 +69,7 @@ function Homepage() {
       {/* Carousel of ten worst landlords */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-center mb-4">
-          The 10 Worste Rated Landlords
+          The 10 Worst Rated Landlords
         </h2>
         {landlords.length > 0 ? (
           <Carousel className="carousel">

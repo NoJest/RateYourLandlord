@@ -12,14 +12,14 @@ function PropertyCard({ landlord }) {
     <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <p className="text-sm">
-          <strong>Address:</strong> {landlord.apartment_number || 'N/A'}{' '}
-          {landlord.street_number || 'N/A'} {landlord.street_name || 'N/A'}{' '}
-          {landlord.zip_code || 'N/A'}
+          <strong>Address:</strong> {landlord.apartment_number || ''}{' '}
+          {landlord.street_number || ''} {landlord.street_name || ''}{' '}
+          {landlord.zip_code || ''}
         </p>
       </CardHeader>
       <CardContent className="space-y-2">
         <p className="text-sm">
-          <strong>LLC:</strong> {landlord.llc || 'N/A'}
+          <strong>Corporation:</strong> {landlord.llc || 'N/A'}
         </p>
         <CardDescription>
           Managed by: {landlord.property_management || 'N/A'}

@@ -120,12 +120,12 @@ class Rating(db.Model, SerializerMixin):
     # -- serializing -- #
     serialize_rules = ("-landlord.ratings", "-user.ratings")
 
-    # -- validations -- ## 
-    @validates('rating')
-    def validate_rating(self, key, rating):
-        if rating < 0 or rating > 5:
-            raise ValueError("Rating must be between 0 and 5")
-        return rating
+    # # -- validations -- ## 
+    # @validates('rating')
+    # def validate_rating(self, key, rating):
+    #     if rating < -1 or rating > 5:
+    #         raise ValueError("Rating must be between 0 and 5")
+    #     return rating
 
 
 # -- Property -- #
