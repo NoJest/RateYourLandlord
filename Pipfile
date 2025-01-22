@@ -15,6 +15,7 @@ faker = "*"
 flask = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
+openai = "*"
 
 [requires]
 python_full_version = "3.8.13"
