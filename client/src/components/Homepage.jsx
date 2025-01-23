@@ -29,8 +29,12 @@ function Homepage() {
         }
         const data = await response.json();
 
+        const nonZeroRatedLandlords = data.filter(landlord => landlord.rating !== 0);
+
+        const filteredLandlords = nonZeroRatedLandlords
+        
         // Sort the landlords by rating (ascending) and take the first 10
-        const sortedLandlords = data
+        const sortedLandlords = filteredLandlords
           .sort((a, b) => a.rating - b.rating)
           .slice(0, 10);
 
@@ -65,14 +69,14 @@ function Homepage() {
   }
   
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4" >
       {/* Carousel of ten worst landlords */}
-      <div className="mb-8">
+      <div className="">
         <h2 className="text-xl font-semibold text-center mb-4">
           The 10 Worst Rated Landlords
         </h2>
         {landlords.length > 0 ? (
-          <Carousel className="carousel">
+          <Carousel className="flex justify-center items-center overflow-hidden w-full py-4">
             <CarouselContent className="carousel-content">
               {landlords.map((landlord) => (
                 <CarouselItem key={landlord.id} className="carousel-item">

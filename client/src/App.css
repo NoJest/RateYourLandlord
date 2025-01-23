@@ -86,6 +86,17 @@
   margin: 10px 0; /* Add space around the text */
   font-family: 'Papyrus', sans-serif; /* Example of a unique font */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optional shadow for effect */
+  
+  position: fixed; /* Fixes the position relative to the viewport */
+  top: 0; /* Aligns it to the top */
+  
+  
+    
+  z-index: 1000; /* Ensures it stays on top of other elements */
+  text-align: center; /* Centers the text */
+  padding: 10px 0; /* Adds padding for spacing */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+  
 }
 
 /* Keyframes for background animation */

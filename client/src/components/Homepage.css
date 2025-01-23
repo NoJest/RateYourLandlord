@@ -34,12 +34,14 @@
   align-items: center;
   overflow: hidden;
   padding: 16px 0;
+  width: 100%
 }
 
 .carousel .carousel-content {
   display: flex;
   gap: 24px; /* Larger gap for modern spacing */
   scroll-snap-type: x mandatory; /* Smooth scrolling behavior */
+  width:100%
 }
 
 .carousel-item {
